@@ -1,5 +1,7 @@
 node_modules/
 .npm-cache/
+nika_work/
+.ssh/
 Thumbs.db
 .DS_Store
 .idea/
