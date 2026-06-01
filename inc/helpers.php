@@ -137,3 +137,95 @@ function nika_get_footer_links() {
 		),
 	);
 }
+
+function nika_get_primary_phone() {
+	$branches = nika_get_contact_branches();
+
+	foreach ( $branches as $branch ) {
+		if ( empty( $branch['phones'] ) || ! is_array( $branch['phones'] ) ) {
+			continue;
+		}
+
+		foreach ( $branch['phones'] as $phone_label => $phone_link ) {
+			return array(
+				'label' => $phone_label,
+				'link'  => $phone_link,
+			);
+		}
+	}
+
+	return null;
+}
+
+function nika_get_branches_label() {
+	$count = count( nika_get_contact_branches() );
+
+	if ( 1 === $count ) {
+		return '1 филиал в Елизово';
+	}
+
+	if ( $count >= 2 && $count <= 4 ) {
+		return sprintf( '%d филиала в Елизово', $count );
+	}
+
+	return sprintf( '%d филиалов в Елизово', $count );
+}
+
+function nika_allow_svg_uploads( $mimes ) {
+	if ( current_user_can( 'manage_options' ) ) {
+		$mimes['svg'] = 'image/svg+xml';
+	}
+
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'nika_allow_svg_uploads' );
+
+function nika_fix_svg_filetype( $data, $file, $filename, $mimes ) {
+	$filetype = wp_check_filetype( $filename, $mimes );
+
+	if ( 'svg' === $filetype['ext'] ) {
+		$data['ext']  = 'svg';
+		$data['type'] = 'image/svg+xml';
+	}
+
+	return $data;
+}
+add_filter( 'wp_check_filetype_and_ext', 'nika_fix_svg_filetype', 10, 4 );
+
+function nika_fix_svg_media_response( $response, $attachment, $meta ) {
+	if ( 'image/svg+xml' !== get_post_mime_type( $attachment ) ) {
+		return $response;
+	}
+
+	$default_size = array(
+		'url'         => $response['url'],
+		'width'       => 512,
+		'height'      => 512,
+		'orientation' => 'portrait',
+	);
+
+	if ( ! isset( $response['sizes'] ) || ! is_array( $response['sizes'] ) ) {
+		$response['sizes'] = array();
+	}
+
+	$response['sizes']['full']      = $default_size;
+	$response['sizes']['thumbnail'] = $default_size;
+
+	return $response;
+}
+add_filter( 'wp_prepare_attachment_for_js', 'nika_fix_svg_media_response', 10, 3 );
+
+function nika_fix_svg_admin_preview_styles() {
+	echo '<style>
+		.attachment img[src$=".svg"],
+		.attachment img[src*=".svg?"],
+		.components-responsive-wrapper img[src$=".svg"],
+		.components-responsive-wrapper img[src*=".svg?"],
+		.thumbnail img[src$=".svg"],
+		.thumbnail img[src*=".svg?"] {
+			width: 100% !important;
+			height: auto !important;
+		}
+	</style>';
+}
+add_action( 'admin_head', 'nika_fix_svg_admin_preview_styles' );

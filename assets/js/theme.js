@@ -172,6 +172,7 @@ document.documentElement.classList.add("has-js");
         if (!instance.slider.classList.contains("slider--enabled")) {
             instance.track.style.transform = "";
             instance.slides.forEach((slide) => {
+                slide.style.flex = "";
                 slide.style.flexBasis = "";
                 slide.style.maxWidth = "";
             });
@@ -198,6 +199,7 @@ document.documentElement.classList.add("has-js");
             instance.slider.classList.remove("slider--enabled");
             instance.track.style.transform = "";
             instance.slides.forEach((slide) => {
+                slide.style.flex = "";
                 slide.style.flexBasis = "";
                 slide.style.maxWidth = "";
             });
@@ -211,6 +213,7 @@ document.documentElement.classList.add("has-js");
         instance.slideWidth = (instance.viewport.clientWidth - totalGap) / instance.perView;
 
         instance.slides.forEach((slide) => {
+            slide.style.flex = `0 0 ${instance.slideWidth}px`;
             slide.style.flexBasis = `${instance.slideWidth}px`;
             slide.style.maxWidth = `${instance.slideWidth}px`;
         });

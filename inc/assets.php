@@ -12,6 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 function nika_enqueue_assets() {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$theme_uri     = get_template_directory_uri();
+	$theme_path    = get_template_directory();
+	$get_version   = static function ( $relative_path ) use ( $theme_path, $theme_version ) {
+		$file_path = $theme_path . $relative_path;
+
+		if ( file_exists( $file_path ) ) {
+			return (string) filemtime( $file_path );
+		}
+
+		return $theme_version;
+	};
 
 	wp_enqueue_style(
 		'nika-fonts',
@@ -24,14 +34,14 @@ function nika_enqueue_assets() {
 		'nika-base',
 		$theme_uri . '/assets/css/base.css',
 		array( 'nika-fonts' ),
-		$theme_version
+		$get_version( '/assets/css/base.css' )
 	);
 
 	wp_enqueue_style(
 		'nika-components',
 		$theme_uri . '/assets/css/components.css',
 		array( 'nika-base' ),
-		$theme_version
+		$get_version( '/assets/css/components.css' )
 	);
 
 	if ( is_front_page() ) {
@@ -39,7 +49,7 @@ function nika_enqueue_assets() {
 			'nika-front-page',
 			$theme_uri . '/assets/css/front-page.css',
 			array( 'nika-components' ),
-			$theme_version
+			$get_version( '/assets/css/front-page.css' )
 		);
 	}
 
@@ -48,7 +58,7 @@ function nika_enqueue_assets() {
 			'nika-pages',
 			$theme_uri . '/assets/css/pages.css',
 			array( 'nika-components' ),
-			$theme_version
+			$get_version( '/assets/css/pages.css' )
 		);
 	}
 
@@ -56,7 +66,7 @@ function nika_enqueue_assets() {
 		'nika-theme',
 		$theme_uri . '/assets/js/theme.js',
 		array(),
-		$theme_version,
+		$get_version( '/assets/js/theme.js' ),
 		true
 	);
 }

@@ -29,7 +29,6 @@ $branches = nika_get_contact_branches();
 							<a href="<?php echo esc_url( $phone_link ); ?>"><?php echo esc_html( $phone_label ); ?></a>
 						<?php endforeach; ?>
 					</span>
-					<a href="#" class="btn btn-secondary btn-sm">Построить маршрут →</a>
 				</div>
 			<?php endforeach; ?>
 		</div>

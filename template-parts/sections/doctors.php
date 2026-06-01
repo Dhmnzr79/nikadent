@@ -10,6 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $doctors = nika_get_home_doctors();
+
+if ( empty( $doctors ) ) {
+	return;
+}
 ?>
 <section class="section section-brand doctors-section">
 	<div class="doctors-deco">
@@ -52,7 +56,7 @@ $doctors = nika_get_home_doctors();
 		<div class="doctors-head">
 			<div>
 				<h2 class="section-title">Кто будет с вами работать</h2>
-				<p class="section-subtitle">Команда из X специалистов. Опыт от 10 до 30 лет.</p>
+				<p class="section-subtitle">Специалисты клиники, которые ведут приём и сопровождают лечение.</p>
 			</div>
 			<a href="<?php echo esc_url( nika_get_page_url( 'doctors' ) ); ?>" class="btn btn-outline-white btn-sm doctors-head__link">Все врачи →</a>
 		</div>
@@ -61,15 +65,30 @@ $doctors = nika_get_home_doctors();
 			<div class="slider__viewport">
 				<div class="slider__track doctors-grid">
 					<?php foreach ( $doctors as $doctor ) : ?>
-						<article class="slider__slide doctor-card reveal">
-							<div class="doctor-photo">
-								<img src="<?php echo esc_url( $doctor['image'] ); ?>" alt="<?php echo esc_attr( $doctor['name'] ); ?>">
-							</div>
+						<?php $has_image = ! empty( $doctor['image'] ); ?>
+						<article class="slider__slide doctor-card reveal<?php echo $has_image ? '' : ' doctor-card--compact'; ?>">
+							<?php if ( $has_image ) : ?>
+								<div class="doctor-photo">
+									<img src="<?php echo esc_url( $doctor['image'] ); ?>" alt="<?php echo esc_attr( $doctor['name'] ); ?>">
+								</div>
+							<?php endif; ?>
+
 							<div class="doctor-info">
-								<div class="doctor-name"><?php echo esc_html( $doctor['name'] ); ?></div>
-								<div class="doctor-spec"><?php echo esc_html( $doctor['speciality'] ); ?></div>
-								<div class="doctor-exp"><?php echo esc_html( $doctor['experience'] ); ?></div>
-								<div class="doctor-quote"><?php echo esc_html( $doctor['quote'] ); ?></div>
+								<?php if ( ! empty( $doctor['name'] ) ) : ?>
+									<div class="doctor-name"><?php echo esc_html( $doctor['name'] ); ?></div>
+								<?php endif; ?>
+
+								<?php if ( ! empty( $doctor['speciality'] ) ) : ?>
+									<div class="doctor-spec"><?php echo esc_html( $doctor['speciality'] ); ?></div>
+								<?php endif; ?>
+
+								<?php if ( ! empty( $doctor['experience'] ) ) : ?>
+									<div class="doctor-exp"><?php echo esc_html( $doctor['experience'] ); ?></div>
+								<?php endif; ?>
+
+								<?php if ( ! empty( $doctor['quote'] ) ) : ?>
+									<div class="doctor-quote"><?php echo esc_html( $doctor['quote'] ); ?></div>
+								<?php endif; ?>
 							</div>
 						</article>
 					<?php endforeach; ?>
