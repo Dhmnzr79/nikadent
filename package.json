@@ -1,0 +1,12 @@
+{
+    "name": "nika-theme",
+    "private": true,
+    "version": "1.0.0",
+    "scripts": {
+        "lint:css": "stylelint \"assets/css/**/*.css\" \"style.css\" --allow-empty-input",
+        "lint": "npm run lint:css"
+    },
+    "devDependencies": {
+        "stylelint": "^16.26.0"
+    }
+}

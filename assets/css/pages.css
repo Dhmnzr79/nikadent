@@ -1,0 +1,9 @@
+.page-hero--fallback {
+    padding-bottom: 32px;
+}
+
+@media (max-width: 767px) {
+    .page-hero--fallback {
+        padding-bottom: 24px;
+    }
+}
