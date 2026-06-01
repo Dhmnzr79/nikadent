@@ -43,6 +43,31 @@ function nika_get_page_url( $path ) {
 	return home_url( '/' . $path . '/' );
 }
 
+function nika_get_doctor_permalink( $post ) {
+	$post = get_post( $post );
+
+	if ( ! $post instanceof WP_Post || 'nika_doctor' !== $post->post_type ) {
+		return home_url( '/' );
+	}
+
+	return add_query_arg(
+		array(
+			'post_type' => 'nika_doctor',
+			'p'         => (int) $post->ID,
+		),
+		home_url( '/' )
+	);
+}
+
+function nika_filter_doctor_permalink( $post_link, $post ) {
+	if ( $post instanceof WP_Post && 'nika_doctor' === $post->post_type ) {
+		return nika_get_doctor_permalink( $post );
+	}
+
+	return $post_link;
+}
+add_filter( 'post_type_link', 'nika_filter_doctor_permalink', 10, 2 );
+
 function nika_disable_canonical_for_query_pages( $redirect_url ) {
 	if ( isset( $_GET['pagename'] ) || isset( $_GET['page_id'] ) ) {
 		return false;
@@ -169,6 +194,55 @@ function nika_get_branches_label() {
 	}
 
 	return sprintf( '%d филиалов в Елизово', $count );
+}
+
+function nika_get_breadcrumb_items() {
+	$items = array(
+		array(
+			'label' => 'Главная',
+			'url'   => home_url( '/' ),
+		),
+	);
+
+	if ( is_singular( 'nika_doctor' ) ) {
+		$items[] = array(
+			'label' => 'Врачи',
+			'url'   => nika_get_page_url( 'doctors' ),
+		);
+
+		$items[] = array(
+			'label' => get_the_title(),
+			'url'   => '',
+		);
+
+		return $items;
+	}
+
+	if ( ! is_page() ) {
+		return $items;
+	}
+
+	$page = get_queried_object();
+
+	if ( ! $page instanceof WP_Post ) {
+		return $items;
+	}
+
+	$ancestor_ids = array_reverse( get_post_ancestors( $page ) );
+
+	foreach ( $ancestor_ids as $ancestor_id ) {
+		$items[] = array(
+			'label' => get_the_title( $ancestor_id ),
+			'url'   => get_permalink( $ancestor_id ),
+		);
+	}
+
+	$items[] = array(
+		'label' => get_the_title( $page ),
+		'url'   => '',
+	);
+
+	return $items;
 }
 
 function nika_allow_svg_uploads( $mimes ) {

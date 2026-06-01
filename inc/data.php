@@ -13,6 +13,10 @@ function nika_get_home_doctors() {
 	return nika_get_doctor_entries( true );
 }
 
+function nika_get_all_doctors() {
+	return nika_get_doctor_entries();
+}
+
 function nika_get_home_reviews() {
 	$reviews = nika_get_review_entries( true );
 

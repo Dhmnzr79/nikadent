@@ -9,13 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$branches = nika_get_contact_branches();
+$branches   = nika_get_contact_branches();
+$show_title = ! isset( $args['show_title'] ) || $args['show_title'];
 ?>
-<section class="section section-soft">
+<section class="section">
 	<div class="container">
-		<div class="section-head">
-			<h2 class="section-title">Наши контакты</h2>
-		</div>
+		<?php if ( $show_title ) : ?>
+			<div class="section-head">
+				<h2 class="section-title">Наши контакты</h2>
+			</div>
+		<?php endif; ?>
 
 		<div class="contacts-grid">
 			<?php foreach ( $branches as $branch ) : ?>

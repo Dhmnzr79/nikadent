@@ -67,29 +67,31 @@ if ( empty( $doctors ) ) {
 					<?php foreach ( $doctors as $doctor ) : ?>
 						<?php $has_image = ! empty( $doctor['image'] ); ?>
 						<article class="slider__slide doctor-card reveal<?php echo $has_image ? '' : ' doctor-card--compact'; ?>">
-							<?php if ( $has_image ) : ?>
-								<div class="doctor-photo">
-									<img src="<?php echo esc_url( $doctor['image'] ); ?>" alt="<?php echo esc_attr( $doctor['name'] ); ?>">
+							<a href="<?php echo esc_url( $doctor['url'] ); ?>" class="doctor-card__link" aria-label="<?php echo esc_attr( $doctor['name'] ); ?>">
+								<?php if ( $has_image ) : ?>
+									<div class="doctor-photo">
+										<img src="<?php echo esc_url( $doctor['image'] ); ?>" alt="<?php echo esc_attr( $doctor['name'] ); ?>">
+									</div>
+								<?php endif; ?>
+
+								<div class="doctor-info">
+									<?php if ( ! empty( $doctor['name'] ) ) : ?>
+										<div class="doctor-name"><?php echo esc_html( $doctor['name'] ); ?></div>
+									<?php endif; ?>
+
+									<?php if ( ! empty( $doctor['speciality'] ) ) : ?>
+										<div class="doctor-spec"><?php echo esc_html( $doctor['speciality'] ); ?></div>
+									<?php endif; ?>
+
+									<?php if ( ! empty( $doctor['experience'] ) ) : ?>
+										<div class="doctor-exp"><?php echo esc_html( $doctor['experience'] ); ?></div>
+									<?php endif; ?>
+
+									<?php if ( ! empty( $doctor['quote'] ) ) : ?>
+										<div class="doctor-quote"><?php echo esc_html( $doctor['quote'] ); ?></div>
+									<?php endif; ?>
 								</div>
-							<?php endif; ?>
-
-							<div class="doctor-info">
-								<?php if ( ! empty( $doctor['name'] ) ) : ?>
-									<div class="doctor-name"><?php echo esc_html( $doctor['name'] ); ?></div>
-								<?php endif; ?>
-
-								<?php if ( ! empty( $doctor['speciality'] ) ) : ?>
-									<div class="doctor-spec"><?php echo esc_html( $doctor['speciality'] ); ?></div>
-								<?php endif; ?>
-
-								<?php if ( ! empty( $doctor['experience'] ) ) : ?>
-									<div class="doctor-exp"><?php echo esc_html( $doctor['experience'] ); ?></div>
-								<?php endif; ?>
-
-								<?php if ( ! empty( $doctor['quote'] ) ) : ?>
-									<div class="doctor-quote"><?php echo esc_html( $doctor['quote'] ); ?></div>
-								<?php endif; ?>
-							</div>
+							</a>
 						</article>
 					<?php endforeach; ?>
 				</div>

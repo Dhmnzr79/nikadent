@@ -32,16 +32,16 @@ function nika_register_content_types() {
 				'remove_featured_image' => 'Удалить фото врача',
 				'use_featured_image'    => 'Использовать как фото врача',
 			),
-			'public'              => false,
-			'publicly_queryable'  => false,
+			'public'              => true,
+			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_nav_menus'   => false,
 			'show_in_admin_bar'   => true,
-			'exclude_from_search' => true,
+			'exclude_from_search' => false,
 			'has_archive'         => false,
 			'rewrite'             => false,
-			'query_var'           => false,
+			'query_var'           => true,
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-groups',
 			'supports'            => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
@@ -317,6 +317,27 @@ function nika_get_meta_text( $post_id, $key ) {
 	return is_string( $value ) ? trim( $value ) : '';
 }
 
+function nika_get_doctor_entry_data( $post ) {
+	$post = get_post( $post );
+
+	if ( ! $post instanceof WP_Post || 'nika_doctor' !== $post->post_type ) {
+		return array();
+	}
+
+	return array(
+		'id'          => (int) $post->ID,
+		'name'        => get_the_title( $post ),
+		'speciality'  => nika_get_meta_text( $post->ID, 'speciality' ),
+		'experience'  => nika_get_meta_text( $post->ID, 'experience' ),
+		'quote'       => nika_get_meta_text( $post->ID, 'quote' ),
+		'description' => trim( (string) $post->post_content ),
+		'education'   => nika_get_meta_text( $post->ID, 'education' ),
+		'image'       => get_the_post_thumbnail_url( $post, 'large' ) ? get_the_post_thumbnail_url( $post, 'large' ) : '',
+		'url'         => nika_get_doctor_permalink( $post ),
+		'show_slider' => '1' === nika_get_meta_text( $post->ID, 'show_home_slider' ),
+	);
+}
+
 function nika_get_doctor_entries( $home_only = false ) {
 	$args = array(
 		'post_type'      => 'nika_doctor',
@@ -341,16 +362,7 @@ function nika_get_doctor_entries( $home_only = false ) {
 	$doctors = array();
 
 	foreach ( $posts as $post ) {
-		$doctors[] = array(
-			'name'        => get_the_title( $post ),
-			'speciality'  => nika_get_meta_text( $post->ID, 'speciality' ),
-			'experience'  => nika_get_meta_text( $post->ID, 'experience' ),
-			'quote'       => nika_get_meta_text( $post->ID, 'quote' ),
-			'description' => trim( (string) $post->post_content ),
-			'education'   => nika_get_meta_text( $post->ID, 'education' ),
-			'image'       => get_the_post_thumbnail_url( $post, 'large' ) ? get_the_post_thumbnail_url( $post, 'large' ) : '',
-			'show_slider' => '1' === nika_get_meta_text( $post->ID, 'show_home_slider' ),
-		);
+		$doctors[] = nika_get_doctor_entry_data( $post );
 	}
 
 	return $doctors;

@@ -5,12 +5,25 @@
  * @package Nika
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 ?>
-<main class="site-main">
-	<section class="page-hero page-hero--fallback">
+<main class="site-main site-main--inner">
+	<section class="page-top">
 		<div class="container">
-			<h1 class="page-hero__title"><?php esc_html_e( 'Материалы сайта', 'nika' ); ?></h1>
+			<nav class="breadcrumbs" aria-label="<?php esc_attr_e( 'Хлебные крошки', 'nika' ); ?>">
+				<span class="breadcrumbs__item">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="breadcrumbs__link"><?php esc_html_e( 'Главная', 'nika' ); ?></a>
+				</span>
+				<span class="breadcrumbs__item">
+					<span class="breadcrumbs__current"><?php esc_html_e( 'Материалы сайта', 'nika' ); ?></span>
+				</span>
+			</nav>
+
+			<h1 class="page-top__title"><?php esc_html_e( 'Материалы сайта', 'nika' ); ?></h1>
 		</div>
 	</section>
 

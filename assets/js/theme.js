@@ -44,6 +44,257 @@ document.documentElement.classList.add("has-js");
         });
     }
 
+    const popup = document.querySelector("#site-popup");
+    const popupForm = document.querySelector("#popup-form");
+    const popupStatus = document.querySelector("#popup-form-status");
+    const popupNameInput = document.querySelector("#popup-name");
+    const popupPhoneInput = document.querySelector("#popup-phone");
+    const popupSubmit = popupForm ? popupForm.querySelector(".popup-form__submit") : null;
+
+    if (popup && popupForm && popupStatus) {
+        const popupTriggers = document.querySelectorAll(".btn:not([data-popup-ignore])");
+        const hiddenPageUrl = popupForm.querySelector('input[name="page_url"]');
+        const hiddenTriggerLabel = popupForm.querySelector('input[name="trigger_label"]');
+        const phoneMask = "+7(___) ___-__-__";
+        const phoneSlots = Array.from(phoneMask).reduce((positions, symbol, index) => {
+            if (symbol === "_") {
+                positions.push(index);
+            }
+
+            return positions;
+        }, []);
+
+        const normalizePhoneDigits = (value) => {
+            let digits = value.replace(/\D/g, "");
+
+            if (digits.startsWith("8")) {
+                digits = digits.slice(1);
+            } else if (digits.startsWith("7")) {
+                digits = digits.slice(1);
+            }
+
+            return digits.slice(0, phoneSlots.length);
+        };
+
+        const formatPhoneDigits = (digits) => {
+            let digitIndex = 0;
+
+            return phoneMask.replace(/_/g, () => {
+                const nextDigit = digits[digitIndex];
+                digitIndex += 1;
+                return nextDigit || "_";
+            });
+        };
+
+        const getDigitIndexFromCaret = (value, caretPosition) => normalizePhoneDigits(value.slice(0, caretPosition)).length;
+
+        const getCaretFromDigitIndex = (digitIndex, formattedValue) => {
+            if (digitIndex <= 0) {
+                return phoneSlots[0];
+            }
+
+            if (digitIndex >= phoneSlots.length) {
+                return formattedValue.length;
+            }
+
+            return phoneSlots[digitIndex];
+        };
+
+        const setPhoneValue = (digits, digitIndex = digits.length, keepMaskVisible = true) => {
+            if (!digits.length && !keepMaskVisible) {
+                popupPhoneInput.value = "";
+                return;
+            }
+
+            const formattedValue = formatPhoneDigits(digits);
+            popupPhoneInput.value = formattedValue;
+
+            const caretPosition = getCaretFromDigitIndex(digitIndex, formattedValue);
+            popupPhoneInput.setSelectionRange(caretPosition, caretPosition);
+        };
+
+        const setPopupStatus = (message, type = "") => {
+            popupStatus.textContent = message;
+            popupStatus.classList.remove("is-error", "is-success");
+
+            if (type) {
+                popupStatus.classList.add(type);
+            }
+        };
+
+        const openPopup = (trigger) => {
+            popup.classList.add("is-open");
+            popup.setAttribute("aria-hidden", "false");
+            document.body.classList.add("popup-open");
+
+            if (header && navToggle) {
+                header.classList.remove("is-menu-open");
+                document.body.classList.remove("menu-open");
+                navToggle.setAttribute("aria-expanded", "false");
+            }
+
+            if (hiddenPageUrl) {
+                hiddenPageUrl.value = window.location.href;
+            }
+
+            if (hiddenTriggerLabel && trigger) {
+                hiddenTriggerLabel.value = trigger.textContent.replace(/\s+/g, " ").trim();
+            }
+
+            window.setTimeout(() => {
+                if (popupNameInput) {
+                    popupNameInput.focus();
+                }
+            }, 40);
+        };
+
+        const closePopup = () => {
+            popup.classList.remove("is-open");
+            popup.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("popup-open");
+        };
+
+        popupTriggers.forEach((trigger) => {
+            trigger.addEventListener("click", (event) => {
+                event.preventDefault();
+                openPopup(trigger);
+            });
+        });
+
+        popup.querySelectorAll("[data-popup-close]").forEach((closeTrigger) => {
+            closeTrigger.addEventListener("click", () => {
+                closePopup();
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && popup.classList.contains("is-open")) {
+                closePopup();
+            }
+        });
+
+        if (popupPhoneInput) {
+            popupPhoneInput.addEventListener("focus", () => {
+                const digits = normalizePhoneDigits(popupPhoneInput.value);
+                setPhoneValue(digits, digits.length, true);
+            });
+
+            popupPhoneInput.addEventListener("input", () => {
+                const selectionStart = popupPhoneInput.selectionStart ?? popupPhoneInput.value.length;
+                const digits = normalizePhoneDigits(popupPhoneInput.value);
+                const digitIndex = getDigitIndexFromCaret(popupPhoneInput.value, selectionStart);
+                setPhoneValue(digits, digitIndex, digits.length > 0 || document.activeElement === popupPhoneInput);
+            });
+
+            popupPhoneInput.addEventListener("keydown", (event) => {
+                const isDeleteKey = event.key === "Backspace" || event.key === "Delete";
+
+                if (!isDeleteKey) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const currentValue = popupPhoneInput.value;
+                const digits = normalizePhoneDigits(currentValue);
+                const selectionStart = popupPhoneInput.selectionStart ?? 0;
+                const selectionEnd = popupPhoneInput.selectionEnd ?? selectionStart;
+                let startIndex = getDigitIndexFromCaret(currentValue, selectionStart);
+                let endIndex = getDigitIndexFromCaret(currentValue, selectionEnd);
+
+                if (selectionStart === selectionEnd) {
+                    if (event.key === "Backspace" && startIndex > 0) {
+                        startIndex -= 1;
+                    }
+
+                    if (event.key === "Delete" && endIndex < digits.length) {
+                        endIndex += 1;
+                    }
+                }
+
+                const nextDigits = `${digits.slice(0, startIndex)}${digits.slice(endIndex)}`;
+                const nextIndex = Math.min(startIndex, nextDigits.length);
+
+                setPhoneValue(nextDigits, nextIndex, nextDigits.length > 0);
+            });
+
+            popupPhoneInput.addEventListener("paste", (event) => {
+                event.preventDefault();
+
+                const pastedText = event.clipboardData ? event.clipboardData.getData("text") : "";
+                const insertedDigits = normalizePhoneDigits(pastedText);
+
+                if (!insertedDigits) {
+                    return;
+                }
+
+                const digits = normalizePhoneDigits(popupPhoneInput.value);
+                const selectionStart = popupPhoneInput.selectionStart ?? 0;
+                const selectionEnd = popupPhoneInput.selectionEnd ?? selectionStart;
+                const startIndex = getDigitIndexFromCaret(popupPhoneInput.value, selectionStart);
+                const endIndex = getDigitIndexFromCaret(popupPhoneInput.value, selectionEnd);
+                const nextDigits = `${digits.slice(0, startIndex)}${insertedDigits}${digits.slice(endIndex)}`.slice(0, phoneSlots.length);
+                const nextIndex = Math.min(startIndex + insertedDigits.length, phoneSlots.length);
+
+                setPhoneValue(nextDigits, nextIndex, true);
+            });
+
+            popupPhoneInput.addEventListener("blur", () => {
+                if (!normalizePhoneDigits(popupPhoneInput.value).length) {
+                    popupPhoneInput.value = "";
+                }
+            });
+        }
+
+        popupForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            setPopupStatus("");
+
+            if (!window.nikaTheme || !window.nikaTheme.ajaxUrl || !window.nikaTheme.leadNonce) {
+                setPopupStatus("Не удалось отправить заявку. Попробуйте чуть позже.", "is-error");
+                return;
+            }
+
+            const formData = new FormData(popupForm);
+            formData.append("action", "nika_submit_lead");
+            formData.append("nonce", window.nikaTheme.leadNonce);
+
+            if (popupSubmit) {
+                popupSubmit.disabled = true;
+                popupSubmit.textContent = "Отправляем...";
+            }
+
+            try {
+                const response = await fetch(window.nikaTheme.ajaxUrl, {
+                    method: "POST",
+                    body: formData,
+                    credentials: "same-origin",
+                });
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result && result.data && result.data.message ? result.data.message : "Не удалось отправить заявку.");
+                }
+
+                popupForm.reset();
+                const privacyField = popupForm.querySelector('input[name="privacy"]');
+
+                if (privacyField) {
+                    privacyField.checked = true;
+                }
+
+                setPopupStatus(result.data.message || "Спасибо! Мы скоро свяжемся с вами.", "is-success");
+            } catch (error) {
+                setPopupStatus(error.message || "Не удалось отправить заявку. Попробуйте чуть позже.", "is-error");
+            } finally {
+                if (popupSubmit) {
+                    popupSubmit.disabled = false;
+                    popupSubmit.textContent = "Отправить заявку";
+                }
+            }
+        });
+    }
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealItems = document.querySelectorAll(".reveal");
 

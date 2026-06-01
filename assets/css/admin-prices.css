@@ -1,0 +1,111 @@
+.nika-prices-admin__intro {
+    max-width: 760px;
+    margin: 12px 0 24px;
+}
+
+.nika-price-sections {
+    display: grid;
+    gap: 20px;
+}
+
+.nika-price-section {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 12px;
+}
+
+.nika-price-section__header,
+.nika-price-service {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.nika-price-section__header {
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.nika-price-section__title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.nika-price-section__note {
+    margin: 6px 0 0;
+    color: #646970;
+}
+
+.nika-price-section__controls,
+.nika-price-service__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.nika-price-section__field {
+    margin-bottom: 18px;
+}
+
+.nika-price-section__label,
+.nika-price-service__field {
+    display: block;
+}
+
+.nika-price-section__label-text,
+.nika-price-service__label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.nika-price-services {
+    display: grid;
+    gap: 12px;
+}
+
+.nika-price-service {
+    align-items: flex-end;
+    padding: 16px;
+    background: #f6f7f7;
+    border-radius: 10px;
+}
+
+.nika-price-service__fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(180px, 1fr);
+    gap: 12px;
+    flex: 1;
+}
+
+.nika-price-service__field input,
+.nika-price-section__field input {
+    width: 100%;
+}
+
+.nika-price-section__footer,
+.nika-prices-admin__actions {
+    margin: 16px 0 0;
+}
+
+@media (max-width: 782px) {
+    .nika-price-section {
+        padding: 16px;
+    }
+
+    .nika-price-section__header,
+    .nika-price-service {
+        flex-direction: column;
+    }
+
+    .nika-price-section__controls,
+    .nika-price-service__controls {
+        justify-content: flex-start;
+    }
+
+    .nika-price-service__fields {
+        grid-template-columns: 1fr;
+    }
+}

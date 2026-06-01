@@ -53,7 +53,7 @@ function nika_enqueue_assets() {
 		);
 	}
 
-	if ( is_page() && ! is_front_page() ) {
+	if ( ( is_page() && ! is_front_page() ) || is_singular( 'nika_doctor' ) ) {
 		wp_enqueue_style(
 			'nika-pages',
 			$theme_uri . '/assets/css/pages.css',
@@ -68,6 +68,15 @@ function nika_enqueue_assets() {
 		array(),
 		$get_version( '/assets/js/theme.js' ),
 		true
+	);
+
+	wp_localize_script(
+		'nika-theme',
+		'nikaTheme',
+		array(
+			'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+			'leadNonce' => wp_create_nonce( 'nika_submit_lead' ),
+		)
 	);
 }
 add_action( 'wp_enqueue_scripts', 'nika_enqueue_assets' );
