@@ -62,6 +62,41 @@ function nika_is_seed_page_placeholder( $page ) {
 	return trim( wp_strip_all_tags( $page->post_content ) ) === nika_get_seed_page_placeholder_text();
 }
 
+function nika_has_working_apache_rewrite_rules() {
+	$server_software = isset( $_SERVER['SERVER_SOFTWARE'] ) ? (string) $_SERVER['SERVER_SOFTWARE'] : '';
+
+	if ( false === stripos( $server_software, 'Apache' ) ) {
+		return true;
+	}
+
+	$htaccess_path = ABSPATH . '.htaccess';
+
+	if ( ! file_exists( $htaccess_path ) ) {
+		return false;
+	}
+
+	$contents = (string) file_get_contents( $htaccess_path );
+
+	return false !== strpos( $contents, 'RewriteEngine On' )
+		&& false !== strpos( $contents, 'RewriteRule . /index.php [L]' );
+}
+
+function nika_maybe_fallback_to_plain_permalinks() {
+	$permalink_structure = (string) get_option( 'permalink_structure' );
+
+	if ( '' === $permalink_structure ) {
+		return;
+	}
+
+	if ( nika_has_working_apache_rewrite_rules() ) {
+		return;
+	}
+
+	update_option( 'permalink_structure', '' );
+	flush_rewrite_rules( false );
+}
+add_action( 'init', 'nika_maybe_fallback_to_plain_permalinks', 5 );
+
 function nika_maybe_seed_pages() {
 	if ( get_option( 'nika_seed_pages_v4' ) ) {
 		return;
@@ -158,10 +193,6 @@ function nika_maybe_seed_pages() {
 		}
 
 		wp_trash_post( $page->ID );
-	}
-
-	if ( '/%postname%/' !== get_option( 'permalink_structure' ) ) {
-		update_option( 'permalink_structure', '/%postname%/' );
 	}
 
 	update_option( 'nika_seed_pages_v4', 1 );

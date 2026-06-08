@@ -53,7 +53,7 @@ function nika_enqueue_assets() {
 		);
 	}
 
-	if ( ( is_page() && ! is_front_page() ) || is_singular( 'nika_doctor' ) ) {
+	if ( ( is_page() && ! is_front_page() ) || is_home() || is_singular( 'post' ) || is_singular( 'nika_doctor' ) ) {
 		wp_enqueue_style(
 			'nika-pages',
 			$theme_uri . '/assets/css/pages.css',

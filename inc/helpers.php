@@ -119,7 +119,7 @@ function nika_get_menu_items() {
 		),
 		array(
 			'label'    => 'Блог',
-			'url'      => nika_get_page_url( 'blog' ),
+			'url'      => nika_get_blog_page_url(),
 			'children' => array(),
 		),
 		array(
@@ -154,7 +154,7 @@ function nika_get_footer_links() {
 		),
 		array(
 			'label' => 'Блог',
-			'url'   => nika_get_page_url( 'blog' ),
+			'url'   => nika_get_blog_page_url(),
 		),
 		array(
 			'label' => 'Контакты',
@@ -208,6 +208,29 @@ function nika_get_breadcrumb_items() {
 		$items[] = array(
 			'label' => 'Врачи',
 			'url'   => nika_get_page_url( 'doctors' ),
+		);
+
+		$items[] = array(
+			'label' => get_the_title(),
+			'url'   => '',
+		);
+
+		return $items;
+	}
+
+	if ( is_home() ) {
+		$items[] = array(
+			'label' => nika_get_blog_archive_title(),
+			'url'   => '',
+		);
+
+		return $items;
+	}
+
+	if ( is_singular( 'post' ) ) {
+		$items[] = array(
+			'label' => nika_get_blog_archive_title(),
+			'url'   => nika_get_blog_page_url(),
 		);
 
 		$items[] = array(
