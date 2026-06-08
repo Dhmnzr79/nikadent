@@ -709,6 +709,13 @@ select {
     gap: 6px;
 }
 
+.footer-legal__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px 32px;
+}
+
 .footer-legal__link {
     color: rgba(255, 255, 255, 0.4);
     transition: color var(--t-fast);
@@ -964,6 +971,10 @@ select {
     .footer-legal {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .footer-legal__links {
+        justify-content: flex-start;
     }
 }
 

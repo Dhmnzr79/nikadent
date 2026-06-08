@@ -40,7 +40,10 @@ function nika_register_content_types() {
 			'show_in_admin_bar'   => true,
 			'exclude_from_search' => false,
 			'has_archive'         => false,
-			'rewrite'             => false,
+			'rewrite'             => array(
+				'slug'       => 'doctors',
+				'with_front' => false,
+			),
 			'query_var'           => true,
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-groups',

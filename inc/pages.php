@@ -47,8 +47,23 @@ function nika_get_seed_pages() {
 			'parent' => '',
 		),
 		array(
-			'path'   => 'legal',
+			'path'   => 'privacy-policy',
 			'title'  => 'Политика конфиденциальности',
+			'parent' => '',
+		),
+		array(
+			'path'   => 'licenses',
+			'title'  => 'Лицензии',
+			'parent' => '',
+		),
+		array(
+			'path'   => 'legal-info',
+			'title'  => 'Юридическая информация',
+			'parent' => '',
+		),
+		array(
+			'path'   => 'personal-data-consent',
+			'title'  => 'Согласие на обработку персональных данных',
 			'parent' => '',
 		),
 	);
@@ -97,13 +112,37 @@ function nika_maybe_fallback_to_plain_permalinks() {
 }
 add_action( 'init', 'nika_maybe_fallback_to_plain_permalinks', 5 );
 
-function nika_maybe_seed_pages() {
-	if ( get_option( 'nika_seed_pages_v4' ) ) {
+function nika_maybe_enable_pretty_permalinks() {
+	$rewrite_version = 'v2';
+	$needs_flush     = false;
+
+	if ( ! nika_has_working_apache_rewrite_rules() ) {
 		return;
 	}
 
-	$definitions    = nika_get_seed_pages();
-	$all_pages      = get_posts(
+	if ( '/%postname%/' !== get_option( 'permalink_structure' ) ) {
+		update_option( 'permalink_structure', '/%postname%/' );
+		$needs_flush = true;
+	}
+
+	if ( $rewrite_version !== get_option( 'nika_pretty_permalinks_version' ) ) {
+		update_option( 'nika_pretty_permalinks_version', $rewrite_version );
+		$needs_flush = true;
+	}
+
+	if ( $needs_flush ) {
+		flush_rewrite_rules( false );
+	}
+}
+add_action( 'init', 'nika_maybe_enable_pretty_permalinks', 20 );
+
+function nika_maybe_seed_pages() {
+	if ( get_option( 'nika_seed_pages_v7' ) ) {
+		return;
+	}
+
+	$definitions     = nika_get_seed_pages();
+	$all_pages       = get_posts(
 		array(
 			'post_type'      => 'page',
 			'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
@@ -195,7 +234,7 @@ function nika_maybe_seed_pages() {
 		wp_trash_post( $page->ID );
 	}
 
-	update_option( 'nika_seed_pages_v4', 1 );
+	update_option( 'nika_seed_pages_v7', 1 );
 	flush_rewrite_rules( false );
 }
 add_action( 'init', 'nika_maybe_seed_pages' );

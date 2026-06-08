@@ -336,7 +336,7 @@ get_header();
 	<?php get_template_part( 'template-parts/sections/ratings' ); ?>
 	<?php get_template_part( 'template-parts/sections/reviews' ); ?>
 
-	<div class="cta-main" id="cta">
+	<?php get_template_part( 'template-parts/sections/cta-main' ); if ( false ) : ?>
 		<div class="cta-deco">
 			<div class="cta-deco-sq1">
 				<svg width="210" height="210" viewBox="0 0 234 234" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -369,7 +369,7 @@ get_header();
 				<a href="<?php echo esc_url( nika_get_page_url( 'contacts' ) ); ?>" class="btn btn-outline-white btn-lg">Позвонить</a>
 			</div>
 		</div>
-	</div>
+	<?php endif; ?>
 
 	<?php get_template_part( 'template-parts/sections/contacts' ); ?>
 </main>

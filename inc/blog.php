@@ -37,10 +37,10 @@ function nika_get_blog_page_url() {
 	$page = nika_get_blog_page();
 
 	if ( $page instanceof WP_Post ) {
-		return nika_get_page_url( get_page_uri( $page ) );
+		return home_url( user_trailingslashit( get_page_uri( $page ) ) );
 	}
 
-	return home_url( '/index.php?pagename=blog' );
+	return home_url( '/blog/' );
 }
 
 function nika_get_blog_post_url( $post ) {
@@ -50,12 +50,7 @@ function nika_get_blog_post_url( $post ) {
 		return home_url( '/' );
 	}
 
-	return add_query_arg(
-		array(
-			'p' => (int) $post->ID,
-		),
-		home_url( '/' )
-	);
+	return home_url( user_trailingslashit( $post->post_name ) );
 }
 
 function nika_is_blog_page() {

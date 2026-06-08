@@ -36,6 +36,7 @@ $breadcrumb_items = nika_get_breadcrumb_items();
 	</section>
 
 	<?php get_template_part( 'template-parts/sections/blog-page', null, array( 'query' => $wp_query ) ); ?>
+	<?php get_template_part( 'template-parts/sections/cta-main' ); ?>
 	<?php get_template_part( 'template-parts/sections/contacts' ); ?>
 </main>
 <?php

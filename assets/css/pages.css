@@ -364,6 +364,77 @@
     text-underline-offset: 0.12em;
 }
 
+.legal-page__content {
+    max-width: 960px;
+    color: var(--ink-mid);
+    font-size: 18px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.legal-page__content > :first-child {
+    margin-top: 0;
+}
+
+.legal-page__content > :last-child {
+    margin-bottom: 0;
+}
+
+.legal-page__content h2,
+.legal-page__content h3 {
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.legal-page__content h2 {
+    margin-top: 36px;
+    margin-bottom: 16px;
+    font-size: 30px;
+}
+
+.legal-page__content h3 {
+    margin-top: 24px;
+    margin-bottom: 14px;
+    font-size: 20px;
+}
+
+.legal-page__content p,
+.legal-page__content ul,
+.legal-page__content ol,
+.legal-page__content li {
+    margin-bottom: 16px;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 400;
+}
+
+.legal-page__content a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+}
+
+.legal-page__content strong,
+.legal-page__content b {
+    font-weight: 400;
+}
+
+.legal-page__list {
+    padding-left: 22px;
+    margin: 0 0 16px;
+    list-style: disc;
+}
+
+.legal-page__content ul,
+.legal-page__content ol {
+    padding-left: 22px;
+}
+
+.legal-page__content li::marker {
+    color: var(--brand);
+}
+
 .blog-single__content blockquote {
     padding: 20px 24px;
     border-left: 4px solid var(--accent);
@@ -375,6 +446,72 @@
 .blog-single__footer {
     max-width: 960px;
     margin: 28px auto 0;
+}
+
+.error-page__code {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    background: #fff;
+    font-size: 14px;
+    color: var(--brand);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.error-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.error-page__links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.error-link-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 100%;
+    padding: 28px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-lg);
+    transition: border-color var(--t-fast), transform var(--t-med);
+}
+
+.error-link-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-3px);
+}
+
+.error-link-card__title {
+    font-family: var(--font-h);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.error-link-card__text {
+    color: var(--ink-mid);
+}
+
+.error-page__section {
+    margin-top: 48px;
+}
+
+.error-page__section-title {
+    margin-bottom: 20px;
+    font-size: 30px;
+    line-height: 1.12;
 }
 
 @media (max-width: 767px) {
@@ -547,8 +684,54 @@
         padding: 18px 18px 18px 20px;
     }
 
+    .legal-page__content h2 {
+        margin-top: 28px;
+        margin-bottom: 14px;
+        font-size: 24px;
+    }
+
+    .legal-page__content h3 {
+        margin-top: 22px;
+        margin-bottom: 12px;
+        font-size: 18px;
+    }
+
+    .legal-page__content p,
+    .legal-page__content ul,
+    .legal-page__content ol,
+    .legal-page__content li {
+        margin-bottom: 14px;
+    }
+
     .blog-single__footer {
         margin-top: 22px;
+    }
+
+    .error-page__actions {
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .error-page__links {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .error-link-card {
+        padding: 22px 20px;
+    }
+
+    .error-link-card__title {
+        font-size: 20px;
+    }
+
+    .error-page__section {
+        margin-top: 36px;
+    }
+
+    .error-page__section-title {
+        margin-bottom: 16px;
+        font-size: 24px;
     }
 
     .breadcrumbs {
@@ -570,5 +753,9 @@
     .doctor-single__layout {
         grid-template-columns: 320px minmax(0, 1fr);
         gap: 32px;
+    }
+
+    .error-page__links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

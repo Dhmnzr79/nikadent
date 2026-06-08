@@ -70,8 +70,9 @@ get_header();
 	<?php elseif ( is_page( 'prices' ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
 	<?php elseif ( nika_is_blog_page() ) : ?>
+		<?php get_template_part( 'template-parts/sections/cta-main' ); ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
-	<?php elseif ( ! is_page( 'contacts' ) ) : ?>
+	<?php elseif ( ! is_page( 'contacts' ) && ! is_page( array( 'privacy-policy', 'personal-data-consent', 'legal-info' ) ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/doctors' ); ?>
 		<?php get_template_part( 'template-parts/sections/ratings' ); ?>
 		<?php get_template_part( 'template-parts/sections/reviews' ); ?>

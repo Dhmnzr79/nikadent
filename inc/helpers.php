@@ -37,7 +37,7 @@ function nika_get_page_url( $path ) {
 	}
 
 	if ( $page ) {
-		return home_url( '/index.php?pagename=' . $path );
+		return home_url( user_trailingslashit( $path ) );
 	}
 
 	return home_url( '/' . $path . '/' );
@@ -50,13 +50,7 @@ function nika_get_doctor_permalink( $post ) {
 		return home_url( '/' );
 	}
 
-	return add_query_arg(
-		array(
-			'post_type' => 'nika_doctor',
-			'p'         => (int) $post->ID,
-		),
-		home_url( '/' )
-	);
+	return home_url( user_trailingslashit( 'doctors/' . $post->post_name ) );
 }
 
 function nika_filter_doctor_permalink( $post_link, $post ) {
@@ -69,10 +63,6 @@ function nika_filter_doctor_permalink( $post_link, $post ) {
 add_filter( 'post_type_link', 'nika_filter_doctor_permalink', 10, 2 );
 
 function nika_disable_canonical_for_query_pages( $redirect_url ) {
-	if ( isset( $_GET['pagename'] ) || isset( $_GET['page_id'] ) ) {
-		return false;
-	}
-
 	return $redirect_url;
 }
 add_filter( 'redirect_canonical', 'nika_disable_canonical_for_query_pages' );
@@ -121,6 +111,20 @@ function nika_get_menu_items() {
 			'label'    => 'Блог',
 			'url'      => nika_get_blog_page_url(),
 			'children' => array(),
+		),
+		array(
+			'label' => 'О клинике',
+			'url'   => nika_get_page_url( 'licenses' ),
+			'children' => array(
+				array(
+					'label' => 'Лицензии',
+					'url'   => nika_get_page_url( 'licenses' ),
+				),
+				array(
+					'label' => 'Юридическая информация',
+					'url'   => nika_get_page_url( 'legal-info' ),
+				),
+			),
 		),
 		array(
 			'label'    => 'Контакты',

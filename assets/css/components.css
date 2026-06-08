@@ -265,6 +265,108 @@
     transform: translateY(0);
 }
 
+@keyframes why-float-1 {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-22px);
+    }
+}
+
+@keyframes why-float-2 {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(16px);
+    }
+}
+
+.cta-main {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0;
+    background: var(--brand);
+    text-align: center;
+}
+
+.cta-main::before,
+.cta-main::after {
+    content: "";
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.cta-main::before {
+    top: -200px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(242, 145, 0, 0.18), transparent 70%);
+}
+
+.cta-main::after {
+    right: -120px;
+    bottom: -200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+}
+
+.cta-main__deco {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.cta-main__shape {
+    position: absolute;
+}
+
+.cta-main__shape--primary {
+    top: 30px;
+    left: 72%;
+    animation: why-float-1 8s ease-in-out infinite;
+}
+
+.cta-main__shape--secondary {
+    top: 80px;
+    left: 78%;
+    animation: why-float-2 6s ease-in-out infinite 1s;
+}
+
+.cta-main__content {
+    position: relative;
+}
+
+.cta-main__title {
+    margin-bottom: 16px;
+    color: #fff;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.cta-main__text {
+    max-width: 640px;
+    margin: 0 auto 36px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 19px;
+    line-height: 1.5;
+}
+
+.cta-main__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
 .doctors-section {
     position: relative;
     overflow: hidden;
@@ -764,6 +866,10 @@
         grid-template-columns: 1fr;
     }
 
+    .cta-main__deco {
+        display: none;
+    }
+
     .map-wrap,
     .map-wrap > * {
         min-height: 420px;
@@ -828,6 +934,19 @@
         font-size: 58px;
     }
 
+    .cta-main {
+        padding: 64px 0;
+    }
+
+    .cta-main__title {
+        font-size: 34px;
+    }
+
+    .cta-main__text {
+        margin-bottom: 28px;
+        font-size: 17px;
+    }
+
     .branch-address,
     .branch-phone {
         font-size: 20px;
@@ -857,5 +976,9 @@
     .post-card,
     .post-card__image {
         transition: none;
+    }
+
+    .cta-main__shape {
+        animation: none;
     }
 }

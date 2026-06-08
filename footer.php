@@ -37,10 +37,13 @@ $footer_links = nika_get_footer_links();
 
 		<div class="footer-legal">
 			<div class="footer-legal__stack">
-				<span>ООО «НикаДент» &nbsp;|&nbsp; ИНН ХХХХХХХХХХ &nbsp;|&nbsp; ОГРН ХХХХХХХХХХХХ</span>
+				<span>ООО «НикаДент» &nbsp;|&nbsp; ИНН ХХХХХХХХХХ &nbsp;|&nbsp; ОГРН ХХХХХХХХХХХХХ</span>
 				<span>Лицензия № ЛО-41-01-ХХХХ от ХХ.ХХ.ХХХХ</span>
 			</div>
-			<a href="<?php echo esc_url( nika_get_page_url( 'legal' ) ); ?>" class="footer-legal__link">Политика конфиденциальности</a>
+			<div class="footer-legal__links">
+				<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" class="footer-legal__link">Политика конфиденциальности</a>
+				<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" class="footer-legal__link">Согласие на обработку персональных данных</a>
+			</div>
 		</div>
 	</div>
 </footer>
