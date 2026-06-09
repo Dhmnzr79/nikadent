@@ -77,37 +77,9 @@ $footer_links = nika_get_footer_links();
 		<div class="site-popup__body">
 			<h2 class="site-popup__title" id="site-popup-title">Оставьте заявку</h2>
 			<p class="site-popup__text">Мы перезвоним вам в ближайшее время, разберем вашу ситуацию и запишем на консультацию, если захотите.</p>
-
-			<form class="popup-form" id="popup-form" novalidate>
-				<div class="popup-form__field">
-					<label class="popup-form__label" for="popup-name">Имя</label>
-					<input class="popup-form__input" id="popup-name" name="name" type="text" autocomplete="name" required>
-				</div>
-
-				<div class="popup-form__field">
-					<label class="popup-form__label" for="popup-phone">Телефон</label>
-					<input class="popup-form__input" id="popup-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7(___) ___-__-__" required>
-				</div>
-
-				<input type="hidden" name="company" value="">
-				<input type="hidden" name="page_url" value="">
-				<input type="hidden" name="trigger_label" value="">
-
-				<label class="popup-form__checkbox">
-					<input class="popup-form__checkbox-input" name="privacy" type="checkbox" value="1" checked required>
-					<span class="popup-form__checkbox-box" aria-hidden="true"></span>
-					<span class="popup-form__checkbox-text">
-						Я даю согласие на обработку
-						<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" target="_blank" rel="noopener noreferrer">персональных данных</a>.
-					</span>
-				</label>
-
-				<div class="popup-form__status" id="popup-form-status" aria-live="polite"></div>
-
-				<button class="btn btn-primary btn-lg popup-form__submit" type="submit" data-popup-ignore>
-					Отправить заявку
-				</button>
-			</form>
+			<div class="popup-form popup-form--cf7">
+				<?php echo do_shortcode( '[contact-form-7 id="a048394" title="Контактная форма общая"]' ); ?>
+			</div>
 		</div>
 	</div>
 </div>

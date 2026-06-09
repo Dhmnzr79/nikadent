@@ -20,6 +20,7 @@ get_header();
 				<span class="hero-eyebrow rise">Стоматология в Елизово · с 2009 года</span>
 				<h1 class="hero-h1 rise" data-delay="1">Стремимся сохранить <span class="accent">каждый зуб</span></h1>
 
+				<p class="hero-summary rise" data-delay="2">Коронки, мосты и протезы на имплантах — прочность, естественность и полное восстановление жевания.</p>
 				<div class="hero-markers rise" data-delay="3">
 					<div class="hero-marker">
 						<span class="check">
@@ -27,7 +28,7 @@ get_header();
 								<path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</span>
-						Без боли и страха
+						Протезирование без стресса
 					</div>
 					<div class="hero-marker">
 						<span class="check">

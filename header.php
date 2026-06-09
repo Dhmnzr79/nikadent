@@ -54,6 +54,9 @@ $primary_phone  = nika_get_primary_phone();
 
 		<nav class="main-nav" id="site-navigation" aria-label="<?php esc_attr_e( 'Основное меню', 'nika' ); ?>">
 			<?php foreach ( $menu_items as $menu_item ) : ?>
+				<?php if ( nika_get_page_url( 'protezirovanie' ) === $menu_item['url'] ) : ?>
+					<?php continue; ?>
+				<?php endif; ?>
 				<?php if ( ! empty( $menu_item['children'] ) ) : ?>
 					<div class="nav-dropdown">
 						<a class="nav-trigger" href="<?php echo esc_url( $menu_item['url'] ); ?>">

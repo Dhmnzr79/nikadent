@@ -43,7 +43,19 @@ if ( $blog_query->max_num_pages > 1 ) {
 						<a href="<?php the_permalink(); ?>" class="post-card__inner">
 							<?php if ( has_post_thumbnail() ) : ?>
 								<div class="post-card__media">
-									<?php the_post_thumbnail( 'medium_large', array( 'class' => 'post-card__image' ) ); ?>
+									<?php
+									echo wp_kses_post(
+										wp_get_attachment_image(
+											get_post_thumbnail_id(),
+											'medium_large',
+											false,
+											array(
+												'class' => 'post-card__image',
+												'alt'   => nika_get_attachment_alt( get_post_thumbnail_id(), get_the_title() ),
+											)
+										)
+									);
+									?>
 								</div>
 							<?php endif; ?>
 

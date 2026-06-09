@@ -76,6 +76,7 @@ function nika_enqueue_assets() {
 		array(
 			'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
 			'leadNonce' => wp_create_nonce( 'nika_submit_lead' ),
+			'thanksUrl' => nika_get_page_url( 'thanks' ),
 		)
 	);
 }

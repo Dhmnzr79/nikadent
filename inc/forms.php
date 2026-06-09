@@ -9,6 +9,56 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+function nika_get_lead_request_ip() {
+	$keys = array(
+		'HTTP_CF_CONNECTING_IP',
+		'HTTP_X_FORWARDED_FOR',
+		'REMOTE_ADDR',
+	);
+
+	foreach ( $keys as $key ) {
+		if ( empty( $_SERVER[ $key ] ) ) {
+			continue;
+		}
+
+		$value = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) );
+
+		if ( 'HTTP_X_FORWARDED_FOR' === $key ) {
+			$parts = array_map( 'trim', explode( ',', $value ) );
+			$value = isset( $parts[0] ) ? $parts[0] : '';
+		}
+
+		if ( '' !== $value ) {
+			return $value;
+		}
+	}
+
+	return 'unknown';
+}
+
+function nika_is_lead_submission_too_fast( $started_at ) {
+	$started_at = (int) $started_at;
+
+	if ( $started_at <= 0 ) {
+		return true;
+	}
+
+	return ( time() - $started_at ) < 2;
+}
+
+function nika_is_lead_submission_rate_limited( $phone_digits ) {
+	$ip            = nika_get_lead_request_ip();
+	$transient_key = 'nika_lead_' . md5( $ip . '|' . $phone_digits );
+
+	if ( get_transient( $transient_key ) ) {
+		return true;
+	}
+
+	set_transient( $transient_key, 1, 10 * MINUTE_IN_SECONDS );
+
+	return false;
+}
+
 function nika_handle_lead_submission() {
 	check_ajax_referer( 'nika_submit_lead', 'nonce' );
 
@@ -18,6 +68,7 @@ function nika_handle_lead_submission() {
 	$trigger_label = isset( $_POST['trigger_label'] ) ? sanitize_text_field( wp_unslash( $_POST['trigger_label'] ) ) : '';
 	$privacy       = isset( $_POST['privacy'] ) ? sanitize_text_field( wp_unslash( $_POST['privacy'] ) ) : '';
 	$company       = isset( $_POST['company'] ) ? sanitize_text_field( wp_unslash( $_POST['company'] ) ) : '';
+	$started_at    = isset( $_POST['form_started_at'] ) ? (int) wp_unslash( $_POST['form_started_at'] ) : 0;
 
 	if ( '' !== $company ) {
 		wp_send_json_success(
@@ -32,6 +83,15 @@ function nika_handle_lead_submission() {
 		wp_send_json_error(
 			array(
 				'message' => 'Заполните имя и телефон.',
+			),
+			400
+		);
+	}
+
+	if ( nika_is_lead_submission_too_fast( $started_at ) ) {
+		wp_send_json_error(
+			array(
+				'message' => 'Подождите пару секунд и повторите отправку.',
 			),
 			400
 		);
@@ -54,6 +114,15 @@ function nika_handle_lead_submission() {
 				'message' => 'Укажите корректный номер телефона.',
 			),
 			400
+		);
+	}
+
+	if ( nika_is_lead_submission_rate_limited( $phone_digits ) ) {
+		wp_send_json_error(
+			array(
+				'message' => 'Заявка уже отправлялась недавно. Если нужно, повторите чуть позже.',
+			),
+			429
 		);
 	}
 

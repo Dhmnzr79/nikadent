@@ -144,7 +144,6 @@ select {
     color: var(--ink-mid);
     line-height: 1.5;
     margin-top: 16px;
-    max-width: 720px;
 }
 
 .btn {
@@ -238,7 +237,8 @@ select {
     margin: 0 auto;
     padding: 14px var(--pad);
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 36px;
 }
@@ -247,6 +247,7 @@ select {
     display: inline-flex;
     align-items: center;
     gap: 12px;
+    justify-self: start;
 }
 
 .logo-img {
@@ -257,9 +258,10 @@ select {
 .main-nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     order: 2;
-    margin-left: 12px;
+    min-width: 0;
 }
 
 .main-nav > a,
@@ -338,7 +340,7 @@ select {
     align-items: center;
     gap: 20px;
     order: 3;
-    margin-left: auto;
+    justify-self: end;
 }
 
 .header-right {
@@ -618,6 +620,168 @@ select {
     width: 100%;
 }
 
+.popup-form--cf7 {
+    margin-top: 28px;
+}
+
+.popup-form--cf7 .wpcf7,
+.popup-form--cf7 .wpcf7 form {
+    width: 100%;
+}
+
+.popup-form--cf7 .wpcf7-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.popup-form--cf7 .wpcf7-form p {
+    margin: 0;
+}
+
+.popup-form--cf7 .wpcf7-form br {
+    display: none;
+}
+
+.popup-form--cf7 .wpcf7-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.popup-form--cf7 .wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+}
+
+.popup-form--cf7 .wpcf7-form-control.wpcf7-text,
+.popup-form--cf7 .wpcf7-form-control.wpcf7-tel {
+    width: 100%;
+    min-height: 58px;
+    padding: 16px 18px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    background: #fff;
+    color: var(--ink);
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.popup-form--cf7 .wpcf7-form-control.wpcf7-text:focus,
+.popup-form--cf7 .wpcf7-form-control.wpcf7-tel:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px rgba(102, 36, 130, 0.12);
+}
+
+.popup-form--cf7 .wpcf7-acceptance {
+    display: block;
+}
+
+.popup-form--cf7 .wpcf7-list-item {
+    margin: 0;
+}
+
+.popup-form--cf7 .wpcf7-acceptance label {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 12px;
+    align-items: start;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-mid);
+    line-height: 1.55;
+}
+
+.popup-form--cf7 .wpcf7-acceptance input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: #fff;
+    position: relative;
+}
+
+.popup-form--cf7 .wpcf7-acceptance input[type="checkbox"]:checked {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.popup-form--cf7 .wpcf7-acceptance input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    width: 5px;
+    height: 9px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+}
+
+.popup-form--cf7 .wpcf7-acceptance a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+}
+
+.popup-form--cf7 .wpcf7-submit {
+    width: 100%;
+}
+
+.popup-form--cf7 input.wpcf7-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 58px;
+    padding: 16px 24px;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--brand);
+    color: #fff;
+    font-family: var(--font-b);
+    font-size: 18px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform var(--t-fast), background var(--t-fast);
+}
+
+.popup-form--cf7 input.wpcf7-submit:hover {
+    background: var(--brand-dark);
+}
+
+.popup-form--cf7 input.wpcf7-submit:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.popup-form--cf7 .wpcf7-spinner {
+    margin: 12px 0 0;
+}
+
+.popup-form--cf7 .wpcf7-not-valid-tip,
+.popup-form--cf7 .wpcf7-response-output {
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.popup-form--cf7 .wpcf7-not-valid-tip {
+    margin-top: 8px;
+    color: #b42318;
+}
+
+.popup-form--cf7 .wpcf7-response-output {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 .cookie-banner {
     position: fixed;
     left: 24px;
@@ -721,8 +885,8 @@ select {
 
 .footer-nav {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 24px;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
 .footer-nav a {
@@ -862,6 +1026,10 @@ select {
         -webkit-backdrop-filter: none;
     }
 
+    .header-inner {
+        display: flex;
+    }
+
     .nav-toggle {
         display: inline-flex;
         position: relative;
@@ -870,6 +1038,7 @@ select {
 
     .header-actions {
         gap: 5px;
+        margin-left: auto;
     }
 
     .main-nav {
@@ -883,6 +1052,7 @@ select {
         max-height: 100dvh;
         flex-direction: column;
         align-items: stretch;
+        justify-content: flex-start;
         gap: 12px;
         margin: 0;
         padding: calc(80px + env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px));
@@ -1054,7 +1224,9 @@ select {
         width: 100%;
     }
 
-    .popup-form__input {
+    .popup-form__input,
+    .popup-form--cf7 .wpcf7-form-control.wpcf7-text,
+    .popup-form--cf7 .wpcf7-form-control.wpcf7-tel {
         min-height: 54px;
     }
 

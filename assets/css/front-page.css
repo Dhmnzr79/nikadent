@@ -59,6 +59,14 @@
     color: var(--brand);
 }
 
+.hero-summary {
+    max-width: 640px;
+    font-size: 20px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    margin-bottom: 8px;
+}
+
 .hero-markers {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -432,6 +440,10 @@
     align-items: start;
 }
 
+.protez-grid > * {
+    min-width: 0;
+}
+
 .protez-title {
     max-width: 620px;
 }
@@ -452,6 +464,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin: 36px 0;
+    min-width: 0;
 }
 
 .protez-card {
@@ -500,10 +513,13 @@
 .protez-aside {
     position: sticky;
     top: 100px;
+    min-width: 0;
 }
 
 .gallery-slider {
     position: relative;
+    width: 100%;
+    max-width: 100%;
     height: 660px;
     border-radius: var(--r-xl);
     overflow: hidden;
@@ -512,6 +528,7 @@
 
 .gallery-track {
     position: relative;
+    width: 100%;
     height: 100%;
 }
 
@@ -676,6 +693,11 @@
         font-size: 42px;
     }
 
+    .hero-summary {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+
     .hero-markers {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -739,6 +761,14 @@
 
     .protez-text p {
         font-size: 16px;
+    }
+
+    .protez-grid {
+        gap: 32px;
+    }
+
+    .protez-cards {
+        gap: 24px;
     }
 
     .gallery-slider {

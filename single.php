@@ -45,7 +45,19 @@ get_header();
 				<article class="blog-single__article">
 					<?php if ( has_post_thumbnail() ) : ?>
 						<div class="blog-single__media">
-							<?php the_post_thumbnail( 'large', array( 'class' => 'blog-single__image' ) ); ?>
+							<?php
+							echo wp_kses_post(
+								wp_get_attachment_image(
+									get_post_thumbnail_id(),
+									'large',
+									false,
+									array(
+										'class' => 'blog-single__image',
+										'alt'   => nika_get_attachment_alt( get_post_thumbnail_id(), get_the_title() ),
+									)
+								)
+							);
+							?>
 						</div>
 					<?php endif; ?>
 

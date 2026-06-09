@@ -157,6 +157,7 @@ document.documentElement.classList.add("has-js");
         const popupTriggers = document.querySelectorAll(".btn:not([data-popup-ignore])");
         const hiddenPageUrl = popupForm.querySelector('input[name="page_url"]');
         const hiddenTriggerLabel = popupForm.querySelector('input[name="trigger_label"]');
+        const hiddenFormStartedAt = popupForm.querySelector('input[name="form_started_at"]');
         const phoneMask = "+7(___) ___-__-__";
         const phoneSlots = Array.from(phoneMask).reduce((positions, symbol, index) => {
             if (symbol === "_") {
@@ -241,6 +242,10 @@ document.documentElement.classList.add("has-js");
 
             if (hiddenTriggerLabel && trigger) {
                 hiddenTriggerLabel.value = trigger.textContent.replace(/\s+/g, " ").trim();
+            }
+
+            if (hiddenFormStartedAt) {
+                hiddenFormStartedAt.value = String(Math.floor(Date.now() / 1000));
             }
 
             window.setTimeout(() => {
@@ -400,6 +405,204 @@ document.documentElement.classList.add("has-js");
                 }
             }
         });
+    }
+
+    const popupCf7 = document.querySelector("#site-popup");
+
+    if (popupCf7) {
+        const popupCf7Form = popupCf7.querySelector(".wpcf7 form");
+        const popupCf7NameInput = popupCf7.querySelector('input[name="client-name"]');
+        const popupCf7PhoneInput = popupCf7.querySelector('input[name="client-phone"]');
+        const popupCf7Triggers = document.querySelectorAll(".btn:not([data-popup-ignore])");
+        const phoneMask = "+7(___) ___-__-__";
+        const phoneSlots = Array.from(phoneMask).reduce((positions, symbol, index) => {
+            if (symbol === "_") {
+                positions.push(index);
+            }
+
+            return positions;
+        }, []);
+
+        const normalizePhoneDigits = (value) => {
+            let digits = value.replace(/\D/g, "");
+
+            if (digits.startsWith("8")) {
+                digits = digits.slice(1);
+            } else if (digits.startsWith("7")) {
+                digits = digits.slice(1);
+            }
+
+            return digits.slice(0, phoneSlots.length);
+        };
+
+        const formatPhoneDigits = (digits) => {
+            let digitIndex = 0;
+
+            return phoneMask.replace(/_/g, () => {
+                const nextDigit = digits[digitIndex];
+                digitIndex += 1;
+                return nextDigit || "_";
+            });
+        };
+
+        const getDigitIndexFromCaret = (value, caretPosition) => normalizePhoneDigits(value.slice(0, caretPosition)).length;
+
+        const getCaretFromDigitIndex = (digitIndex, formattedValue) => {
+            if (digitIndex <= 0) {
+                return phoneSlots[0];
+            }
+
+            if (digitIndex >= phoneSlots.length) {
+                return formattedValue.length;
+            }
+
+            return phoneSlots[digitIndex];
+        };
+
+        const setPhoneValue = (digits, digitIndex = digits.length, keepMaskVisible = true) => {
+            if (!popupCf7PhoneInput) {
+                return;
+            }
+
+            if (!digits.length && !keepMaskVisible) {
+                popupCf7PhoneInput.value = "";
+                return;
+            }
+
+            const formattedValue = formatPhoneDigits(digits);
+            popupCf7PhoneInput.value = formattedValue;
+
+            const caretPosition = getCaretFromDigitIndex(digitIndex, formattedValue);
+            popupCf7PhoneInput.setSelectionRange(caretPosition, caretPosition);
+        };
+
+        const openPopupCf7 = () => {
+            popupCf7.classList.add("is-open");
+            popupCf7.setAttribute("aria-hidden", "false");
+            document.body.classList.add("popup-open");
+
+            if (header && navToggle) {
+                header.classList.remove("is-menu-open");
+                document.body.classList.remove("menu-open");
+                navToggle.setAttribute("aria-expanded", "false");
+            }
+
+            window.setTimeout(() => {
+                if (popupCf7NameInput) {
+                    popupCf7NameInput.focus();
+                }
+            }, 40);
+        };
+
+        const closePopupCf7 = () => {
+            popupCf7.classList.remove("is-open");
+            popupCf7.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("popup-open");
+        };
+
+        popupCf7Triggers.forEach((trigger) => {
+            trigger.addEventListener("click", (event) => {
+                event.preventDefault();
+                openPopupCf7();
+            });
+        });
+
+        popupCf7.querySelectorAll("[data-popup-close]").forEach((closeTrigger) => {
+            closeTrigger.addEventListener("click", () => {
+                closePopupCf7();
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && popupCf7.classList.contains("is-open")) {
+                closePopupCf7();
+            }
+        });
+
+        if (popupCf7PhoneInput) {
+            popupCf7PhoneInput.addEventListener("focus", () => {
+                const digits = normalizePhoneDigits(popupCf7PhoneInput.value);
+                setPhoneValue(digits, digits.length, true);
+            });
+
+            popupCf7PhoneInput.addEventListener("input", () => {
+                const selectionStart = popupCf7PhoneInput.selectionStart ?? popupCf7PhoneInput.value.length;
+                const digits = normalizePhoneDigits(popupCf7PhoneInput.value);
+                const digitIndex = getDigitIndexFromCaret(popupCf7PhoneInput.value, selectionStart);
+                setPhoneValue(digits, digitIndex, digits.length > 0 || document.activeElement === popupCf7PhoneInput);
+            });
+
+            popupCf7PhoneInput.addEventListener("keydown", (event) => {
+                const isDeleteKey = event.key === "Backspace" || event.key === "Delete";
+
+                if (!isDeleteKey) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const currentValue = popupCf7PhoneInput.value;
+                const digits = normalizePhoneDigits(currentValue);
+                const selectionStart = popupCf7PhoneInput.selectionStart ?? 0;
+                const selectionEnd = popupCf7PhoneInput.selectionEnd ?? selectionStart;
+                let startIndex = getDigitIndexFromCaret(currentValue, selectionStart);
+                let endIndex = getDigitIndexFromCaret(currentValue, selectionEnd);
+
+                if (selectionStart === selectionEnd) {
+                    if (event.key === "Backspace" && startIndex > 0) {
+                        startIndex -= 1;
+                    }
+
+                    if (event.key === "Delete" && endIndex < digits.length) {
+                        endIndex += 1;
+                    }
+                }
+
+                const nextDigits = `${digits.slice(0, startIndex)}${digits.slice(endIndex)}`;
+                const nextIndex = Math.min(startIndex, nextDigits.length);
+
+                setPhoneValue(nextDigits, nextIndex, nextDigits.length > 0);
+            });
+
+            popupCf7PhoneInput.addEventListener("paste", (event) => {
+                event.preventDefault();
+
+                const pastedText = event.clipboardData ? event.clipboardData.getData("text") : "";
+                const insertedDigits = normalizePhoneDigits(pastedText);
+
+                if (!insertedDigits) {
+                    return;
+                }
+
+                const digits = normalizePhoneDigits(popupCf7PhoneInput.value);
+                const selectionStart = popupCf7PhoneInput.selectionStart ?? 0;
+                const selectionEnd = popupCf7PhoneInput.selectionEnd ?? selectionStart;
+                const startIndex = getDigitIndexFromCaret(popupCf7PhoneInput.value, selectionStart);
+                const endIndex = getDigitIndexFromCaret(popupCf7PhoneInput.value, selectionEnd);
+                const nextDigits = `${digits.slice(0, startIndex)}${insertedDigits}${digits.slice(endIndex)}`.slice(0, phoneSlots.length);
+                const nextIndex = Math.min(startIndex + insertedDigits.length, phoneSlots.length);
+
+                setPhoneValue(nextDigits, nextIndex, true);
+            });
+
+            popupCf7PhoneInput.addEventListener("blur", () => {
+                if (!normalizePhoneDigits(popupCf7PhoneInput.value).length) {
+                    popupCf7PhoneInput.value = "";
+                }
+            });
+        }
+
+        if (popupCf7Form) {
+            document.addEventListener("wpcf7mailsent", (event) => {
+                if (!popupCf7.contains(event.target)) {
+                    return;
+                }
+
+                if (window.nikaTheme && window.nikaTheme.thanksUrl) {
+                    window.location.assign(window.nikaTheme.thanksUrl);
+                }
+            });
+        }
     }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

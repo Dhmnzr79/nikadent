@@ -131,24 +131,16 @@ function nika_get_menu_items() {
 function nika_get_footer_links() {
 	return array(
 		array(
-			'label' => 'Протезирование зубов',
-			'url'   => nika_get_page_url( 'protezirovanie' ),
-		),
-		array(
-			'label' => 'Съёмные протезы',
-			'url'   => nika_get_page_url( 'protezirovanie/semnoe-protezirovanie' ),
-		),
-		array(
-			'label' => 'Коронки',
-			'url'   => nika_get_page_url( 'protezirovanie/koronki-i-nesemnoe-protezirovanie' ),
-		),
-		array(
 			'label' => 'Врачи',
 			'url'   => nika_get_page_url( 'doctors' ),
 		),
 		array(
 			'label' => 'Цены',
 			'url'   => nika_get_page_url( 'prices' ),
+		),
+		array(
+			'label' => 'Документы',
+			'url'   => nika_get_page_url( 'documents' ),
 		),
 		array(
 			'label' => 'Блог',
@@ -324,3 +316,20 @@ function nika_fix_svg_admin_preview_styles() {
 	</style>';
 }
 add_action( 'admin_head', 'nika_fix_svg_admin_preview_styles' );
+
+function nika_get_attachment_alt( $attachment_id, $fallback = '' ) {
+	$attachment_id = (int) $attachment_id;
+
+	if ( $attachment_id <= 0 ) {
+		return (string) $fallback;
+	}
+
+	$alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+	$alt = is_string( $alt ) ? trim( $alt ) : '';
+
+	if ( '' !== $alt ) {
+		return $alt;
+	}
+
+	return (string) $fallback;
+}
