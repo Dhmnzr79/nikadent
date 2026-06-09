@@ -47,18 +47,13 @@ function nika_get_seed_pages() {
 			'parent' => '',
 		),
 		array(
+			'path'   => 'documents',
+			'title'  => 'Документы',
+			'parent' => '',
+		),
+		array(
 			'path'   => 'privacy-policy',
 			'title'  => 'Политика конфиденциальности',
-			'parent' => '',
-		),
-		array(
-			'path'   => 'licenses',
-			'title'  => 'Лицензии',
-			'parent' => '',
-		),
-		array(
-			'path'   => 'legal-info',
-			'title'  => 'Юридическая информация',
 			'parent' => '',
 		),
 		array(
@@ -66,6 +61,18 @@ function nika_get_seed_pages() {
 			'title'  => 'Согласие на обработку персональных данных',
 			'parent' => '',
 		),
+		array(
+			'path'   => 'thanks',
+			'title'  => 'Спасибо за заявку',
+			'parent' => '',
+		),
+	);
+}
+
+function nika_get_deprecated_seed_page_paths() {
+	return array(
+		'licenses',
+		'legal-info',
 	);
 }
 
@@ -137,7 +144,7 @@ function nika_maybe_enable_pretty_permalinks() {
 add_action( 'init', 'nika_maybe_enable_pretty_permalinks', 20 );
 
 function nika_maybe_seed_pages() {
-	if ( get_option( 'nika_seed_pages_v7' ) ) {
+	if ( get_option( 'nika_seed_pages_v9' ) ) {
 		return;
 	}
 
@@ -218,6 +225,14 @@ function nika_maybe_seed_pages() {
 		$canonical_ids[]          = (int) $page_id;
 	}
 
+	foreach ( nika_get_deprecated_seed_page_paths() as $deprecated_path ) {
+		$deprecated_page = get_page_by_path( $deprecated_path );
+
+		if ( $deprecated_page instanceof WP_Post ) {
+			wp_trash_post( $deprecated_page->ID );
+		}
+	}
+
 	foreach ( $all_pages as $page ) {
 		if ( in_array( (int) $page->ID, $canonical_ids, true ) ) {
 			continue;
@@ -234,7 +249,7 @@ function nika_maybe_seed_pages() {
 		wp_trash_post( $page->ID );
 	}
 
-	update_option( 'nika_seed_pages_v7', 1 );
+	update_option( 'nika_seed_pages_v9', 1 );
 	flush_rewrite_rules( false );
 }
 add_action( 'init', 'nika_maybe_seed_pages' );

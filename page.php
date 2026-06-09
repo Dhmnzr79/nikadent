@@ -21,6 +21,7 @@ get_header();
 		$is_doctors_page  = 'doctors' === get_post_field( 'post_name', get_the_ID() );
 		$is_blog_page     = nika_is_blog_page();
 		$is_prices_page   = 'prices' === get_post_field( 'post_name', get_the_ID() );
+		$is_documents_page = 'documents' === get_post_field( 'post_name', get_the_ID() );
 		$show_page_content = ! $is_contacts_page && ! $is_doctors_page && ! $is_blog_page;
 
 		if ( function_exists( 'nika_is_seed_page_placeholder' ) && nika_is_seed_page_placeholder( get_post() ) ) {
@@ -62,6 +63,8 @@ get_header();
 			<?php get_template_part( 'template-parts/sections/blog-page' ); ?>
 		<?php elseif ( $is_prices_page ) : ?>
 			<?php get_template_part( 'template-parts/sections/prices' ); ?>
+		<?php elseif ( $is_documents_page ) : ?>
+			<?php get_template_part( 'template-parts/sections/documents-requisites' ); ?>
 		<?php endif; ?>
 	<?php endwhile; ?>
 
@@ -72,10 +75,12 @@ get_header();
 	<?php elseif ( nika_is_blog_page() ) : ?>
 		<?php get_template_part( 'template-parts/sections/cta-main' ); ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
-	<?php elseif ( ! is_page( 'contacts' ) && ! is_page( array( 'privacy-policy', 'personal-data-consent', 'legal-info' ) ) ) : ?>
+	<?php elseif ( ! is_page( 'contacts' ) && ! is_page( array( 'privacy-policy', 'personal-data-consent', 'documents' ) ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/doctors' ); ?>
 		<?php get_template_part( 'template-parts/sections/ratings' ); ?>
 		<?php get_template_part( 'template-parts/sections/reviews' ); ?>
+		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
+	<?php elseif ( is_page( 'documents' ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
 	<?php endif; ?>
 </main>

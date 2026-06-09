@@ -1,6 +1,6 @@
 <?php
 /**
- * Privacy policy page template.
+ * Personal data consent page template.
  *
  * @package Nika
  */
@@ -14,13 +14,14 @@ get_header();
 <main class="site-main site-main--inner">
 	<?php while ( have_posts() ) : ?>
 		<?php the_post(); ?>
+		<?php $document_text = nika_get_personal_data_consent_text(); ?>
 		<?php
 		get_template_part(
 			'template-parts/sections/legal-document',
 			null,
 			array(
-				'document_text' => nika_get_privacy_policy_text(),
-				'page_title'    => get_the_title(),
+				'document_text' => $document_text,
+				'page_title'    => nika_get_legal_document_title( $document_text ),
 			)
 		);
 		?>

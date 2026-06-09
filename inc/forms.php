@@ -22,7 +22,8 @@ function nika_handle_lead_submission() {
 	if ( '' !== $company ) {
 		wp_send_json_success(
 			array(
-				'message' => 'Спасибо! Заявка отправлена.',
+				'message'     => 'Спасибо! Заявка отправлена.',
+				'redirectUrl' => nika_get_page_url( 'thanks' ),
 			)
 		);
 	}
@@ -80,7 +81,8 @@ function nika_handle_lead_submission() {
 
 	wp_send_json_success(
 		array(
-			'message' => 'Спасибо! Мы скоро свяжемся с вами.',
+			'message'     => 'Спасибо! Мы скоро свяжемся с вами.',
+			'redirectUrl' => nika_get_page_url( 'thanks' ),
 		)
 	);
 }

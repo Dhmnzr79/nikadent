@@ -57,7 +57,7 @@ get_header();
 
 				<div class="hero-btns rise" data-delay="4">
 					<a href="#cta" class="btn btn-primary btn-lg">Записаться на приём</a>
-					<a href="<?php echo esc_url( nika_get_page_url( 'prices' ) ); ?>" class="btn btn-secondary btn-lg">Посмотреть цены</a>
+					<a href="<?php echo esc_url( nika_get_page_url( 'prices' ) ); ?>" class="btn btn-secondary btn-lg" data-popup-ignore>Посмотреть цены</a>
 				</div>
 			</div>
 

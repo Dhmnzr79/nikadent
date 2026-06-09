@@ -5,6 +5,108 @@ document.documentElement.classList.add("has-js");
     const navToggle = document.querySelector(".nav-toggle");
     const navigation = document.querySelector(".main-nav");
     const mobileBreakpoint = 1080;
+    const cookieBanner = document.querySelector("[data-cookie-consent]");
+    const cookieMapBlocks = document.querySelectorAll("[data-cookie-map]");
+    const cookieStorageKey = "nikaCookieConsent";
+    const cookieAcceptedValue = "accepted";
+    const cookieDeclinedValue = "declined";
+
+    const getCookieConsentValue = () => {
+        try {
+            const savedValue = window.localStorage.getItem(cookieStorageKey);
+
+            if (savedValue === cookieAcceptedValue || savedValue === cookieDeclinedValue) {
+                return savedValue;
+            }
+        } catch (error) {
+            return "";
+        }
+
+        return "";
+    };
+
+    const loadCookieMap = (mapBlock) => {
+        if (!mapBlock || mapBlock.dataset.mapLoaded === "true") {
+            return;
+        }
+
+        const mapTarget = mapBlock.querySelector("[data-cookie-map-target]");
+        const mapSrc = mapBlock.dataset.mapSrc;
+
+        if (!mapTarget || !mapSrc) {
+            return;
+        }
+
+        const mapScript = document.createElement("script");
+        mapScript.src = mapSrc;
+        mapScript.async = true;
+        mapScript.type = "text/javascript";
+        mapScript.charset = "utf-8";
+
+        mapTarget.appendChild(mapScript);
+        mapBlock.dataset.mapLoaded = "true";
+    };
+
+    const applyCookieConsent = (consentValue = getCookieConsentValue()) => {
+        if (cookieBanner) {
+            const shouldShowBanner = consentValue !== cookieAcceptedValue && consentValue !== cookieDeclinedValue;
+
+            cookieBanner.hidden = !shouldShowBanner;
+            cookieBanner.classList.toggle("is-visible", shouldShowBanner);
+        }
+
+        cookieMapBlocks.forEach((mapBlock) => {
+            const mapPlaceholder = mapBlock.querySelector("[data-cookie-map-placeholder]");
+            const isAccepted = consentValue === cookieAcceptedValue;
+
+            if (mapPlaceholder) {
+                mapPlaceholder.hidden = isAccepted;
+            }
+
+            mapBlock.classList.toggle("is-loaded", isAccepted);
+
+            if (isAccepted) {
+                loadCookieMap(mapBlock);
+            }
+        });
+    };
+
+    const setCookieConsent = (consentValue) => {
+        try {
+            window.localStorage.setItem(cookieStorageKey, consentValue);
+        } catch (error) {
+            // The UI still updates even if localStorage is unavailable.
+        }
+
+        applyCookieConsent(consentValue);
+    };
+
+    if (cookieBanner) {
+        const acceptButton = cookieBanner.querySelector("[data-cookie-accept]");
+        const declineButton = cookieBanner.querySelector("[data-cookie-decline]");
+
+        if (acceptButton) {
+            acceptButton.addEventListener("click", () => {
+                setCookieConsent(cookieAcceptedValue);
+            });
+        }
+
+        if (declineButton) {
+            declineButton.addEventListener("click", () => {
+                setCookieConsent(cookieDeclinedValue);
+            });
+        }
+    }
+
+    cookieMapBlocks.forEach((mapBlock) => {
+        mapBlock.querySelectorAll("[data-cookie-accept-map]").forEach((button) => {
+            button.addEventListener("click", () => {
+                setCookieConsent(cookieAcceptedValue);
+            });
+        });
+    });
+
+    applyCookieConsent();
 
     if (header && navToggle && navigation) {
         const closeMenu = () => {
@@ -281,6 +383,11 @@ document.documentElement.classList.add("has-js");
 
                 if (privacyField) {
                     privacyField.checked = true;
+                }
+
+                if (result && result.data && result.data.redirectUrl) {
+                    window.location.assign(result.data.redirectUrl);
+                    return;
                 }
 
                 setPopupStatus(result.data.message || "Спасибо! Мы скоро свяжемся с вами.", "is-success");

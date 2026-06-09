@@ -9,14 +9,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function nika_get_privacy_policy_text() {
-	$path = get_template_directory() . '/assets/content/privacy-policy.txt';
+function nika_get_legal_document_text( $file_name ) {
+	$path = get_template_directory() . '/assets/content/' . ltrim( $file_name, '/' );
 
 	if ( ! file_exists( $path ) ) {
 		return '';
 	}
 
 	return trim( (string) file_get_contents( $path ) );
+}
+
+function nika_get_privacy_policy_text() {
+	return nika_get_legal_document_text( 'privacy-policy.txt' );
+}
+
+function nika_get_personal_data_consent_text() {
+	return nika_get_legal_document_text( 'personal-data-consent.txt' );
+}
+
+function nika_get_legal_document_title( $text ) {
+	$lines = preg_split( '/\r\n|\r|\n/', trim( (string) $text ) );
+
+	foreach ( $lines as $line ) {
+		$line = trim( $line );
+
+		if ( '' !== $line ) {
+			return $line;
+		}
+	}
+
+	return '';
 }
 
 function nika_format_legal_text_fragment( $text ) {
@@ -36,73 +58,54 @@ function nika_format_legal_text_fragment( $text ) {
 }
 
 function nika_render_legal_document( $text ) {
-	$lines         = preg_split( '/\r\n|\r|\n/', trim( (string) $text ) );
-	$html          = '';
-	$list_is_open  = false;
-	$is_first_line = true;
+	$lines               = preg_split( '/\r\n|\r|\n/', trim( (string) $text ) );
+	$html                = '';
+	$list_is_open        = false;
+	$is_first_text_line  = true;
+	$list_marker_pattern = '/^(?:\x{2014}|\x{2013}|\x{2022}|-)\s+/u';
 
 	foreach ( $lines as $line ) {
 		$line = trim( $line );
 
 		if ( '' === $line ) {
 			if ( $list_is_open ) {
-				$html        .= '</ul>';
+				$html         .= '</ul>';
 				$list_is_open = false;
 			}
 
 			continue;
 		}
+
+		// The page already has the main title, so the repeated document title is skipped.
+		if ( $is_first_text_line && ! preg_match( '/^\d+\.\s/u', $line ) ) {
+			$is_first_text_line = false;
+			continue;
+		}
+
+		$is_first_text_line = false;
 
 		if ( preg_match( '/^\d+\.\s/u', $line ) ) {
 			if ( $list_is_open ) {
-				$html        .= '</ul>';
+				$html         .= '</ul>';
 				$list_is_open = false;
 			}
 
-			$html         .= '<h2>' . esc_html( $line ) . '</h2>';
-			$is_first_line = false;
+			$html .= '<h2>' . esc_html( $line ) . '</h2>';
 			continue;
 		}
 
-		if ( preg_match( '/^\d+\.\d+\.\s/u', $line ) ) {
-			if ( $list_is_open ) {
-				$html        .= '</ul>';
-				$list_is_open = false;
-			}
-
-			$html         .= '<h3>' . esc_html( $line ) . '</h3>';
-			$is_first_line = false;
-			continue;
-		}
-
-		if ( preg_match( '/^—\s/u', $line ) ) {
+		if ( preg_match( $list_marker_pattern, $line ) ) {
 			if ( ! $list_is_open ) {
-				$html        .= '<ul class="legal-page__list">';
+				$html         .= '<ul class="legal-page__list">';
 				$list_is_open = true;
 			}
 
-			$html .= '<li>' . nika_format_legal_text_fragment( preg_replace( '/^—\s/u', '', $line ) ) . '</li>';
-			continue;
-		}
-
-		if ( preg_match( '/^(Цель обработки|Персональные данные|Правовые основания|Виды обработки персональных данных)\s+(.+)$/u', $line, $matches ) ) {
-			if ( $list_is_open ) {
-				$html        .= '</ul>';
-				$list_is_open = false;
-			}
-
-			$html .= '<p><strong>' . esc_html( $matches[1] ) . ':</strong> ' . nika_format_legal_text_fragment( $matches[2] ) . '</p>';
-			continue;
-		}
-
-		if ( $is_first_line ) {
-			$html         .= '<h2>' . esc_html( $line ) . '</h2>';
-			$is_first_line = false;
+			$html .= '<li>' . nika_format_legal_text_fragment( preg_replace( $list_marker_pattern, '', $line ) ) . '</li>';
 			continue;
 		}
 
 		if ( $list_is_open ) {
-			$html        .= '</ul>';
+			$html         .= '</ul>';
 			$list_is_open = false;
 		}
 

@@ -238,6 +238,82 @@
     text-align: right;
 }
 
+.documents-page {
+    padding-top: 12px;
+}
+
+.documents-page__card {
+    padding: 32px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+}
+
+.documents-page__card + .documents-page__card {
+    margin-top: 20px;
+}
+
+.documents-page__head {
+    margin-bottom: 24px;
+}
+
+.documents-page__title {
+    font-size: 32px;
+    line-height: 1.08;
+}
+
+.documents-page__subtitle {
+    margin-top: 12px;
+    font-size: 18px;
+    color: var(--ink-mid);
+}
+
+.documents-page__list {
+    display: grid;
+}
+
+.documents-page__row {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.documents-page__row:first-child {
+    padding-top: 0;
+}
+
+.documents-page__row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.documents-page__label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-light);
+}
+
+.documents-page__value {
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.6;
+}
+
+.documents-page__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.documents-page__cta-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
 .blog-page {
     padding-top: 12px;
 }
@@ -362,14 +438,6 @@
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.12em;
-}
-
-.legal-page__content {
-    max-width: 960px;
-    color: var(--ink-mid);
-    font-size: 18px;
-    line-height: 1.7;
-    font-weight: 400;
 }
 
 .legal-page__content > :first-child {
@@ -514,6 +582,51 @@
     line-height: 1.12;
 }
 
+.thanks-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(180deg, #faf7fc 0%, #f3edf7 100%);
+}
+
+.thanks-page__inner {
+    width: min(100%, 720px);
+    padding: 56px 48px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 24px 60px rgba(31, 26, 35, 0.12);
+    text-align: center;
+}
+
+.thanks-page__logo {
+    display: block;
+    width: min(100%, 120px);
+    margin: 0 auto 18px;
+}
+
+.thanks-page__title {
+    font-size: 52px;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+}
+
+.thanks-page__text {
+    max-width: 520px;
+    margin: 20px auto 0;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink-mid);
+}
+
+.thanks-page__actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
 @media (max-width: 767px) {
     .page-top {
         padding: 20px 0 24px;
@@ -586,12 +699,28 @@
         padding-top: 8px;
     }
 
+    .documents-page {
+        padding-top: 8px;
+    }
+
     .prices-page__card {
         padding: 20px;
     }
 
+    .documents-page__card {
+        padding: 20px;
+    }
+
+    .documents-page__card + .documents-page__card {
+        margin-top: 16px;
+    }
+
     .prices-page__list {
         display: block;
+    }
+
+    .documents-page__head {
+        margin-bottom: 18px;
     }
 
     .prices-page__group + .prices-page__group {
@@ -628,6 +757,37 @@
 
     .prices-page__price {
         text-align: left;
+    }
+
+    .documents-page__title {
+        font-size: 24px;
+    }
+
+    .documents-page__subtitle {
+        font-size: 16px;
+    }
+
+    .documents-page__row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 14px 0;
+    }
+
+    .documents-page__label {
+        font-size: 14px;
+    }
+
+    .documents-page__value {
+        font-size: 16px;
+    }
+
+    .documents-page__cta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .documents-page__cta-actions {
+        width: 100%;
     }
 
     .blog-page {
@@ -742,6 +902,22 @@
 
     .breadcrumbs__item {
         gap: 10px;
+    }
+
+    .thanks-page {
+        padding: 20px 16px;
+    }
+
+    .thanks-page__inner {
+        padding: 40px 24px;
+    }
+
+    .thanks-page__title {
+        font-size: 38px;
+    }
+
+    .thanks-page__text {
+        font-size: 16px;
     }
 }
 

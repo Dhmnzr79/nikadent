@@ -69,7 +69,7 @@ add_filter( 'redirect_canonical', 'nika_disable_canonical_for_query_pages' );
 
 function nika_filter_document_title( $title ) {
 	if ( is_front_page() ) {
-		return 'НикаДент — Стоматология в Елизово';
+		return 'Вика Дент - Стоматология в Елизово';
 	}
 
 	return $title;
@@ -98,31 +98,25 @@ function nika_get_menu_items() {
 			),
 		),
 		array(
-			'label'    => 'Врачи',
-			'url'      => nika_get_page_url( 'doctors' ),
-			'children' => array(),
-		),
-		array(
-			'label'    => 'Цены',
-			'url'      => nika_get_page_url( 'prices' ),
-			'children' => array(),
-		),
-		array(
 			'label'    => 'Блог',
 			'url'      => nika_get_blog_page_url(),
 			'children' => array(),
 		),
 		array(
 			'label' => 'О клинике',
-			'url'   => nika_get_page_url( 'licenses' ),
+			'url'   => nika_get_page_url( 'documents' ),
 			'children' => array(
 				array(
-					'label' => 'Лицензии',
-					'url'   => nika_get_page_url( 'licenses' ),
+					'label' => 'Врачи',
+					'url'   => nika_get_page_url( 'doctors' ),
 				),
 				array(
-					'label' => 'Юридическая информация',
-					'url'   => nika_get_page_url( 'legal-info' ),
+					'label' => 'Цены',
+					'url'   => nika_get_page_url( 'prices' ),
+				),
+				array(
+					'label' => 'Документы',
+					'url'   => nika_get_page_url( 'documents' ),
 				),
 			),
 		),

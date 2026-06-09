@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<div class="cta-main__actions">
 				<a href="#" class="btn btn-accent btn-lg"><?php esc_html_e( 'Записаться онлайн', 'nika' ); ?></a>
-				<a href="<?php echo esc_url( nika_get_page_url( 'contacts' ) ); ?>" class="btn btn-outline-white btn-lg"><?php esc_html_e( 'Позвонить', 'nika' ); ?></a>
+				<a href="tel:+79004446997" class="btn btn-outline-white btn-lg"><?php esc_html_e( 'Позвонить', 'nika' ); ?></a>
 			</div>
 		</div>
 	</div>

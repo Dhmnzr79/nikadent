@@ -16,7 +16,7 @@ $footer_links = nika_get_footer_links();
 		<div class="footer-top">
 			<div>
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-logo">
-					<img src="<?php echo esc_url( nika_asset_url( 'images/logo-footer.svg' ) ); ?>" alt="<?php esc_attr_e( 'НикаДент', 'nika' ); ?>" class="footer-logo__image">
+					<img src="<?php echo esc_url( nika_asset_url( 'images/logo-footer.svg' ) ); ?>" alt="<?php esc_attr_e( 'Вика Дент', 'nika' ); ?>" class="footer-logo__image">
 				</a>
 				<p class="footer-about">Стоматология в Елизово. 16 лет помогаем пациентам Камчатки восстанавливать зубы без страха и переплат.</p>
 			</div>
@@ -37,16 +37,34 @@ $footer_links = nika_get_footer_links();
 
 		<div class="footer-legal">
 			<div class="footer-legal__stack">
-				<span>ООО «НикаДент» &nbsp;|&nbsp; ИНН ХХХХХХХХХХ &nbsp;|&nbsp; ОГРН ХХХХХХХХХХХХХ</span>
-				<span>Лицензия № ЛО-41-01-ХХХХ от ХХ.ХХ.ХХХХ</span>
+				<span>ООО «Вика Дент» &nbsp;|&nbsp; ИНН: 4100055346 &nbsp;|&nbsp; ОГРН: 1254100001968</span>
+				<span>Лицензия № Л041-01025-41/03166063</span>
 			</div>
 			<div class="footer-legal__links">
-				<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" class="footer-legal__link">Политика конфиденциальности</a>
-				<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" class="footer-legal__link">Согласие на обработку персональных данных</a>
+				<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" class="footer-legal__link" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+				<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" class="footer-legal__link" target="_blank" rel="noopener noreferrer">Согласие на обработку персональных данных</a>
 			</div>
+		</div>
+
+		<div class="footer-disclaimer">
+			<p class="footer-disclaimer__text">Имеются противопоказания, необходима консультация специалиста.</p>
 		</div>
 	</div>
 </footer>
+
+<div class="cookie-banner" data-cookie-consent hidden>
+	<div class="cookie-banner__inner">
+		<p class="cookie-banner__text">
+			Мы используем необходимые cookies для работы сайта и подключаем внешние сервисы, например карту Яндекса, только после вашего согласия.
+			<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+			<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" target="_blank" rel="noopener noreferrer">Согласие на использование cookies</a>
+		</p>
+		<div class="cookie-banner__actions">
+			<button class="btn btn-primary btn-sm cookie-banner__button" type="button" data-cookie-accept data-popup-ignore>Принять cookies</button>
+			<button class="btn btn-secondary btn-sm cookie-banner__button" type="button" data-cookie-decline data-popup-ignore>Только необходимые</button>
+		</div>
+	</div>
+</div>
 
 <div class="site-popup" id="site-popup" aria-hidden="true">
 	<div class="site-popup__backdrop" data-popup-close></div>
@@ -58,7 +76,7 @@ $footer_links = nika_get_footer_links();
 
 		<div class="site-popup__body">
 			<h2 class="site-popup__title" id="site-popup-title">Оставьте заявку</h2>
-			<p class="site-popup__text">Мы перезвоним вам в ближайшее время, разберём вашу ситуацию и запишем на консультацию, если захотите.</p>
+			<p class="site-popup__text">Мы перезвоним вам в ближайшее время, разберем вашу ситуацию и запишем на консультацию, если захотите.</p>
 
 			<form class="popup-form" id="popup-form" novalidate>
 				<div class="popup-form__field">
@@ -79,8 +97,8 @@ $footer_links = nika_get_footer_links();
 					<input class="popup-form__checkbox-input" name="privacy" type="checkbox" value="1" checked required>
 					<span class="popup-form__checkbox-box" aria-hidden="true"></span>
 					<span class="popup-form__checkbox-text">
-						Согласие на обработку персональных данных.
-						<a href="https://nikadent41.ru/privacy.pdf" target="_blank" rel="noopener noreferrer">Открыть документ</a>
+						Я даю согласие на обработку
+						<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" target="_blank" rel="noopener noreferrer">персональных данных</a>.
 					</span>
 				</label>
 
