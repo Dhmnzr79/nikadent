@@ -266,9 +266,12 @@ select {
 
 .main-nav > a,
 .main-nav .nav-dropdown > .nav-trigger {
+    font-family: inherit;
     font-size: 15px;
     font-weight: 400;
+    line-height: inherit;
     color: var(--ink);
+    margin: 0;
     padding: 10px 14px;
     border-radius: var(--r-pill);
     background: transparent;

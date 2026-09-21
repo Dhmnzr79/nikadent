@@ -37,12 +37,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="container">
 		<div class="cta-main__content">
-			<h2 class="cta-main__title"><?php esc_html_e( 'Запишитесь на бесплатную консультацию', 'nika' ); ?></h2>
+			<h2 class="cta-main__title"><?php esc_html_e( 'Запишитесь на бесплатную консультацию по протезированию', 'nika' ); ?></h2>
 			<p class="cta-main__text"><?php esc_html_e( 'Врач посмотрит, подскажет варианты и назовет точную цену. Без давления и обязательств.', 'nika' ); ?></p>
 
 			<div class="cta-main__actions">
 				<a href="#" class="btn btn-accent btn-lg"><?php esc_html_e( 'Записаться онлайн', 'nika' ); ?></a>
-				<a href="tel:+79004446997" class="btn btn-outline-white btn-lg"><?php esc_html_e( 'Позвонить', 'nika' ); ?></a>
+				<a href="tel:+79004446997" class="btn btn-outline-white btn-lg" data-popup-ignore><?php esc_html_e( 'Позвонить', 'nika' ); ?></a>
 			</div>
 		</div>
 	</div>

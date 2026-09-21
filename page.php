@@ -13,16 +13,35 @@ get_header();
 ?>
 <main class="site-main site-main--inner">
 	<?php
+	$is_legal_page = false;
+
 	while ( have_posts() ) :
 		the_post();
 
-		$breadcrumb_items = nika_get_breadcrumb_items();
-		$is_contacts_page = 'contacts' === get_post_field( 'post_name', get_the_ID() );
-		$is_doctors_page  = 'doctors' === get_post_field( 'post_name', get_the_ID() );
-		$is_blog_page     = nika_is_blog_page();
-		$is_prices_page   = 'prices' === get_post_field( 'post_name', get_the_ID() );
-		$is_documents_page = 'documents' === get_post_field( 'post_name', get_the_ID() );
+		$page_slug         = get_post_field( 'post_name', get_the_ID() );
+		$is_privacy_page   = in_array( $page_slug, array( 'privacy-policy', 'privacy-policy-2' ), true );
+		$breadcrumb_items  = nika_get_breadcrumb_items();
+		$is_contacts_page  = 'contacts' === $page_slug;
+		$is_doctors_page   = 'doctors' === $page_slug;
+		$is_blog_page      = nika_is_blog_page();
+		$is_prices_page    = 'prices' === $page_slug;
+		$is_documents_page = 'documents' === $page_slug;
 		$show_page_content = ! $is_contacts_page && ! $is_doctors_page && ! $is_blog_page;
+
+		if ( $is_privacy_page ) {
+			$is_legal_page = true;
+
+			get_template_part(
+				'template-parts/sections/legal-document',
+				null,
+				array(
+					'document_text' => nika_get_privacy_policy_text(),
+					'page_title'    => 'Политика в отношении обработки персональных данных',
+				)
+			);
+
+			continue;
+		}
 
 		if ( function_exists( 'nika_is_seed_page_placeholder' ) && nika_is_seed_page_placeholder( get_post() ) ) {
 			$show_page_content = false;
@@ -68,7 +87,8 @@ get_header();
 		<?php endif; ?>
 	<?php endwhile; ?>
 
-	<?php if ( is_page( 'doctors' ) ) : ?>
+	<?php if ( $is_legal_page ) : ?>
+	<?php elseif ( is_page( 'doctors' ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>
 	<?php elseif ( is_page( 'prices' ) ) : ?>
 		<?php get_template_part( 'template-parts/sections/contacts' ); ?>

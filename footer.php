@@ -41,7 +41,7 @@ $footer_links = nika_get_footer_links();
 				<span>Лицензия № Л041-01025-41/03166063</span>
 			</div>
 			<div class="footer-legal__links">
-				<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" class="footer-legal__link" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+				<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" class="footer-legal__link" target="_blank" rel="noopener noreferrer">Политика обработки персональных данных</a>
 				<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" class="footer-legal__link" target="_blank" rel="noopener noreferrer">Согласие на обработку персональных данных</a>
 			</div>
 		</div>
@@ -55,9 +55,8 @@ $footer_links = nika_get_footer_links();
 <div class="cookie-banner" data-cookie-consent hidden>
 	<div class="cookie-banner__inner">
 		<p class="cookie-banner__text">
-			Мы используем необходимые cookies для работы сайта и подключаем внешние сервисы, например карту Яндекса, только после вашего согласия.
-			<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
-			<a href="<?php echo esc_url( nika_get_page_url( 'personal-data-consent' ) ); ?>" target="_blank" rel="noopener noreferrer">Согласие на использование cookies</a>
+			Мы используем cookies для работы сайта и улучшения его функциональности.
+			<a href="<?php echo esc_url( nika_get_page_url( 'privacy-policy' ) ); ?>" target="_blank" rel="noopener noreferrer">Подробнее в политике обработки персональных данных</a>
 		</p>
 		<div class="cookie-banner__actions">
 			<button class="btn btn-primary btn-sm cookie-banner__button" type="button" data-cookie-accept data-popup-ignore>Принять cookies</button>

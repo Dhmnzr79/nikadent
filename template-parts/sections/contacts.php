@@ -41,7 +41,7 @@ $show_title = ! isset( $args['show_title'] ) || $args['show_title'];
 		</div>
 
 		<div class="contacts-final-cta">
-			<a href="<?php echo esc_url( home_url( '/#cta' ) ); ?>" class="btn btn-primary btn-lg">Записаться на бесплатную консультацию</a>
+			<a href="<?php echo esc_url( home_url( '/#cta' ) ); ?>" class="btn btn-primary btn-lg">Записаться на консультацию</a>
 		</div>
 	</div>
 </section>

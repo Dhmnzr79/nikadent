@@ -12,19 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 function nika_get_seed_pages() {
 	return array(
 		array(
-			'path'   => 'protezirovanie',
-			'title'  => 'Протезирование',
+			'path'   => 'semnoe-protezirovanie',
+			'title'  => 'Съемное протезирование',
 			'parent' => '',
 		),
 		array(
-			'path'   => 'protezirovanie/semnoe-protezirovanie',
-			'title'  => 'Съемное протезирование',
-			'parent' => 'protezirovanie',
-		),
-		array(
-			'path'   => 'protezirovanie/koronki-i-nesemnoe-protezirovanie',
+			'path'   => 'koronki-i-nesemnoe-protezirovanie',
 			'title'  => 'Коронки и несъемное протезирование',
-			'parent' => 'protezirovanie',
+			'parent' => '',
 		),
 		array(
 			'path'   => 'doctors',
@@ -73,6 +68,7 @@ function nika_get_deprecated_seed_page_paths() {
 	return array(
 		'licenses',
 		'legal-info',
+		'protezirovanie',
 	);
 }
 
@@ -144,7 +140,7 @@ function nika_maybe_enable_pretty_permalinks() {
 add_action( 'init', 'nika_maybe_enable_pretty_permalinks', 20 );
 
 function nika_maybe_seed_pages() {
-	if ( get_option( 'nika_seed_pages_v9' ) ) {
+	if ( get_option( 'nika_seed_pages_v10' ) ) {
 		return;
 	}
 
@@ -249,7 +245,7 @@ function nika_maybe_seed_pages() {
 		wp_trash_post( $page->ID );
 	}
 
-	update_option( 'nika_seed_pages_v9', 1 );
+	update_option( 'nika_seed_pages_v10', 1 );
 	flush_rewrite_rules( false );
 }
 add_action( 'init', 'nika_maybe_seed_pages' );

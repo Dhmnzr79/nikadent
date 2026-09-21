@@ -154,7 +154,7 @@ document.documentElement.classList.add("has-js");
     const popupSubmit = popupForm ? popupForm.querySelector(".popup-form__submit") : null;
 
     if (popup && popupForm && popupStatus) {
-        const popupTriggers = document.querySelectorAll(".btn:not([data-popup-ignore])");
+        const popupTriggers = document.querySelectorAll('.btn:not([data-popup-ignore]):not([href^="tel:"]), [data-popup-trigger]:not([data-popup-ignore])');
         const hiddenPageUrl = popupForm.querySelector('input[name="page_url"]');
         const hiddenTriggerLabel = popupForm.querySelector('input[name="trigger_label"]');
         const hiddenFormStartedAt = popupForm.querySelector('input[name="form_started_at"]');
@@ -241,7 +241,7 @@ document.documentElement.classList.add("has-js");
             }
 
             if (hiddenTriggerLabel && trigger) {
-                hiddenTriggerLabel.value = trigger.textContent.replace(/\s+/g, " ").trim();
+                hiddenTriggerLabel.value = trigger.dataset.popupLabel || trigger.textContent.replace(/\s+/g, " ").trim();
             }
 
             if (hiddenFormStartedAt) {
@@ -413,7 +413,8 @@ document.documentElement.classList.add("has-js");
         const popupCf7Form = popupCf7.querySelector(".wpcf7 form");
         const popupCf7NameInput = popupCf7.querySelector('input[name="client-name"]');
         const popupCf7PhoneInput = popupCf7.querySelector('input[name="client-phone"]');
-        const popupCf7Triggers = document.querySelectorAll(".btn:not([data-popup-ignore])");
+        const popupCf7ConsentInput = popupCf7.querySelector('input[name="personal-data-consent"]');
+        const popupCf7Triggers = document.querySelectorAll('.btn:not([data-popup-ignore]):not([href^="tel:"]), [data-popup-trigger]:not([data-popup-ignore])');
         const phoneMask = "+7(___) ___-__-__";
         const phoneSlots = Array.from(phoneMask).reduce((positions, symbol, index) => {
             if (symbol === "_") {
@@ -499,6 +500,10 @@ document.documentElement.classList.add("has-js");
             popupCf7.setAttribute("aria-hidden", "true");
             document.body.classList.remove("popup-open");
         };
+
+        if (popupCf7ConsentInput) {
+            popupCf7ConsentInput.checked = false;
+        }
 
         popupCf7Triggers.forEach((trigger) => {
             trigger.addEventListener("click", (event) => {
@@ -833,5 +838,98 @@ document.documentElement.classList.add("has-js");
         resizeTimer = window.setTimeout(() => {
             sliderInstances.forEach(refreshSlider);
         }, 120);
+    });
+
+    const typeRoot = document.querySelector("[data-prosthetics-types]");
+
+    if (typeRoot) {
+        const typeTabs = typeRoot.querySelectorAll("[data-prosthetics-tab]");
+        const typeImage = typeRoot.querySelector("[data-prosthetics-image]");
+        const typeNum = typeRoot.querySelector("[data-prosthetics-num]");
+        const typeTitle = typeRoot.querySelector("[data-prosthetics-title]");
+        const typeText = typeRoot.querySelector("[data-prosthetics-text]");
+        const typePrice = typeRoot.querySelector("[data-prosthetics-price]");
+        const typeFacts = typeRoot.querySelector("[data-prosthetics-facts]");
+        const typeNote = typeRoot.querySelector("[data-prosthetics-note]");
+
+        typeTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                let facts = [];
+
+                try {
+                    facts = JSON.parse(tab.dataset.facts || "[]");
+                } catch (error) {
+                    facts = [];
+                }
+
+                typeTabs.forEach((item) => {
+                    const isActive = item === tab;
+                    item.classList.toggle("is-active", isActive);
+                    item.setAttribute("aria-selected", isActive ? "true" : "false");
+                });
+
+                if (typeImage) {
+                    typeImage.style.opacity = "0.2";
+                }
+
+                window.setTimeout(() => {
+                    if (typeNum) {
+                        typeNum.textContent = tab.dataset.num || "";
+                    }
+
+                    if (typeTitle) {
+                        typeTitle.textContent = tab.dataset.title || "";
+                    }
+
+                    if (typeText) {
+                        typeText.textContent = tab.dataset.text || "";
+                    }
+
+                    if (typePrice) {
+                        typePrice.textContent = tab.dataset.price || "";
+                    }
+
+                    if (typeNote) {
+                        typeNote.textContent = tab.dataset.note || "";
+                    }
+
+                    if (typeFacts) {
+                        typeFacts.replaceChildren();
+                        facts.forEach((fact) => {
+                            const factItem = document.createElement("span");
+                            factItem.className = "rp-types__fact";
+                            factItem.textContent = fact;
+                            typeFacts.appendChild(factItem);
+                        });
+                    }
+
+                    if (typeImage && tab.dataset.image) {
+                        const showImage = () => {
+                            typeImage.style.opacity = "1";
+                        };
+
+                        typeImage.addEventListener("load", showImage, { once: true });
+                        typeImage.src = tab.dataset.image;
+                        window.setTimeout(showImage, 80);
+                    }
+                }, 120);
+            });
+        });
+    }
+
+    document.querySelectorAll(".rp-faq__list").forEach((list) => {
+        list.querySelectorAll(".rp-faq__item").forEach((item) => {
+            item.addEventListener("toggle", () => {
+                if (!item.open) {
+                    return;
+                }
+
+                list.querySelectorAll(".rp-faq__item").forEach((other) => {
+                    if (other !== item) {
+                        other.removeAttribute("open");
+                    }
+                });
+            });
+        });
     });
 })();

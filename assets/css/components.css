@@ -367,6 +367,41 @@
     gap: 16px;
 }
 
+.cta-bar {
+    background: var(--brand);
+    padding: 36px 0;
+}
+
+.cta-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.cta-bar__copy {
+    min-width: 0;
+}
+
+.cta-bar__title {
+    margin-bottom: 8px;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.cta-bar__text {
+    max-width: 560px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.cta-bar__button {
+    flex-shrink: 0;
+}
+
 .doctors-section {
     position: relative;
     overflow: hidden;
@@ -859,6 +894,96 @@
     text-align: center;
 }
 
+.site-notice {
+    width: 100%;
+    color: var(--ink);
+    background: var(--brand-soft);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-h);
+}
+
+.site-notice__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: var(--w);
+    min-height: 52px;
+    margin: 0 auto;
+    padding: 10px var(--pad);
+    font-size: 15px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.site-notice__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.site-notice__title,
+.site-notice__emphasis {
+    font-weight: 700;
+}
+
+.site-notice__title {
+    color: var(--brand);
+}
+
+.trust {
+    background: var(--brand-deep);
+    padding: 44px 0;
+}
+
+.trust__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.trust__item {
+    text-align: center;
+    padding: 8px 24px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.trust__item:last-child {
+    border-right: 0;
+}
+
+.trust__value {
+    display: block;
+    font-family: var(--font-h);
+    font-size: 48px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.trust__unit {
+    color: var(--accent);
+    font-size: 28px;
+    vertical-align: baseline;
+}
+
+.trust__label {
+    display: block;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
 @media (max-width: 1180px) {
     .posts {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -922,9 +1047,31 @@
     .map-wrap__embed {
         min-height: 420px;
     }
+
+    .trust__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 0;
+    }
+
+    .trust__item:nth-child(2n) {
+        border-right: 0;
+    }
 }
 
 @media (max-width: 767px) {
+    .site-notice__inner {
+        align-items: flex-start;
+        justify-content: flex-start;
+        min-height: auto;
+        padding: 12px 16px;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .site-notice__icon {
+        margin-top: 1px;
+    }
+
     .posts {
         grid-template-columns: 1fr;
     }
@@ -995,6 +1142,24 @@
         font-size: 17px;
     }
 
+    .cta-bar {
+        padding: 28px 0;
+    }
+
+    .cta-bar__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .cta-bar__title {
+        font-size: 24px;
+    }
+
+    .cta-bar__button {
+        width: 100%;
+    }
+
     .branch-address,
     .branch-phone {
         font-size: 20px;
@@ -1017,6 +1182,36 @@
     .map-wrap__embed {
         min-height: 280px;
         max-height: 280px;
+    }
+
+    .trust {
+        padding: 28px 0;
+    }
+
+    .trust__grid {
+        gap: 10px;
+    }
+
+    .trust__item {
+        padding: 18px 14px;
+        border-right: 0;
+        border-radius: var(--r-md);
+        border-top: 1px solid hsl(0deg 0% 100% / 30%);
+        border-left: 1px solid hsl(0deg 0% 100% / 30%);
+        background: rgb(255 255 255 / 10%);
+    }
+
+    .trust__value {
+        font-size: 38px;
+    }
+
+    .trust__unit {
+        font-size: 24px;
+    }
+
+    .trust__label {
+        margin-top: 8px;
+        font-size: 14px;
     }
 }
 

@@ -44,7 +44,7 @@ get_header();
 								<path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</span>
-						Консультация бесплатно
+						 Консультация по ортопедии и имплантации бесплатная
 					</div>
 					<div class="hero-marker">
 						<span class="check">
@@ -96,26 +96,7 @@ get_header();
 		</div>
 	</section>
 
-	<div class="trust-dark">
-		<div class="trust-dark-inner">
-			<div class="trust-dark-item">
-				<span class="trust-dark-num">16<span class="unit"> лет</span></span>
-				<div class="trust-dark-desc">на Камчатке</div>
-			</div>
-			<div class="trust-dark-item">
-				<span class="trust-dark-num">2</span>
-				<div class="trust-dark-desc">филиала в городе</div>
-			</div>
-			<div class="trust-dark-item">
-				<span class="trust-dark-num">10 000<span class="unit">+</span></span>
-				<div class="trust-dark-desc">пациентов</div>
-			</div>
-			<div class="trust-dark-item">
-				<span class="trust-dark-num">0<span class="unit"> ₽</span></span>
-				<div class="trust-dark-desc">консультация по протезированию</div>
-			</div>
-		</div>
-	</div>
+	<?php get_template_part( 'template-parts/sections/trust' ); ?>
 
 	<section class="section">
 		<div class="container">
@@ -125,30 +106,30 @@ get_header();
 			</div>
 
 			<div class="services-cards">
-				<a href="<?php echo esc_url( nika_get_page_url( 'protezirovanie' ) ); ?>" class="service-card reveal">
+				<button type="button" class="service-card reveal" data-popup-trigger data-popup-label="Восстановить зубы">
 					<span class="service-card-num">01</span>
 					<div class="service-card-title">Восстановить зубы</div>
 					<div class="service-card-text">Подберём протез под ваш бюджет: съёмный, бюгельный или коронки — без давления на дорогие решения.</div>
 					<span class="service-card-link">Подробнее <span class="arr">→</span></span>
-				</a>
-				<a href="#cta" class="service-card reveal">
+				</button>
+				<button type="button" class="service-card reveal" data-popup-trigger data-popup-label="Вылечить зуб">
 					<span class="service-card-num">02</span>
 					<div class="service-card-title">Вылечить зуб</div>
 					<div class="service-card-text">Лечим от кариеса до сложных каналов под анестезией — стараемся сохранить зуб, а не удалить.</div>
 					<span class="service-card-link">Подробнее <span class="arr">→</span></span>
-				</a>
-				<a href="#cta" class="service-card reveal">
+				</button>
+				<button type="button" class="service-card reveal" data-popup-trigger data-popup-label="Удалить зуб">
 					<span class="service-card-num">03</span>
 					<div class="service-card-title">Удалить зуб</div>
 					<div class="service-card-text">Удалим зуб любой сложности без боли — анестезию подбираем под каждого пациента.</div>
 					<span class="service-card-link">Подробнее <span class="arr">→</span></span>
-				</a>
-				<a href="#cta" class="service-card reveal">
+				</button>
+				<button type="button" class="service-card reveal" data-popup-trigger data-popup-label="Поставить имплант">
 					<span class="service-card-num">04</span>
 					<div class="service-card-title">Поставить имплант</div>
 					<div class="service-card-text">Имплантат и коронка под ключ — восстановим зуб так, чтобы служил десятки лет.</div>
 					<span class="service-card-link">Подробнее <span class="arr">→</span></span>
-				</a>
+				</button>
 			</div>
 		</div>
 	</section>
@@ -194,7 +175,7 @@ get_header();
 				<div class="why-card reveal">
 					<div class="why-icon"><img src="<?php echo esc_url( nika_asset_url( 'images/icon-02.svg' ) ); ?>" alt="" aria-hidden="true"></div>
 					<div class="why-card-title">Доступные цены</div>
-					<div class="why-card-text">Съёмный протез от 30 000 ₽, коронка от 20 000 ₽. Не давим дорогими решениями. Делаем то, что нужно именно вам.</div>
+					<div class="why-card-text">Съёмный протез от 35 000 ₽, коронка от 22 000 ₽. Не давим дорогими решениями. Делаем то, что нужно именно вам.</div>
 				</div>
 				<div class="why-card reveal">
 					<div class="why-icon">
@@ -305,7 +286,7 @@ get_header();
 					</div>
 
 					<div class="protez-btns">
-						<a href="#cta" class="btn btn-primary">Записаться на бесплатную консультацию</a>
+						<a href="#cta" class="btn btn-primary">Записаться на бесплатную консультацию по протезированию</a>
 					</div>
 				</div>
 

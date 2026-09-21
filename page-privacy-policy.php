@@ -20,7 +20,7 @@ get_header();
 			null,
 			array(
 				'document_text' => nika_get_privacy_policy_text(),
-				'page_title'    => get_the_title(),
+				'page_title'    => nika_get_legal_document_title( nika_get_privacy_policy_text() ),
 			)
 		);
 		?>

@@ -53,12 +53,21 @@ function nika_enqueue_assets() {
 		);
 	}
 
-	if ( ( is_page() && ! is_front_page() ) || is_home() || is_singular( 'post' ) || is_singular( 'nika_doctor' ) ) {
+	if ( ( is_page() && ! is_front_page() ) || is_home() || is_singular( 'post' ) || is_singular( 'nika_doctor' ) || is_404() ) {
 		wp_enqueue_style(
 			'nika-pages',
 			$theme_uri . '/assets/css/pages.css',
 			array( 'nika-components' ),
 			$get_version( '/assets/css/pages.css' )
+		);
+	}
+
+	if ( is_page( array( 'semnoe-protezirovanie', 'koronki-i-nesemnoe-protezirovanie' ) ) ) {
+		wp_enqueue_style(
+			'nika-prosthetics',
+			$theme_uri . '/assets/css/prosthetics.css',
+			array( 'nika-components' ),
+			$get_version( '/assets/css/prosthetics.css' )
 		);
 	}
 

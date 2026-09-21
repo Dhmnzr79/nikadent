@@ -17,6 +17,10 @@ function nika_get_page_url( $path ) {
 	$path = trim( $path, '/' );
 	$page = get_page_by_path( $path );
 
+	if ( $page && 'publish' !== get_post_status( $page ) ) {
+		$page = null;
+	}
+
 	if ( ! $page ) {
 		$segments = explode( '/', $path );
 		$slug     = end( $segments );
@@ -36,8 +40,33 @@ function nika_get_page_url( $path ) {
 		}
 	}
 
+	if ( ! $page && function_exists( 'nika_get_seed_pages' ) ) {
+		foreach ( nika_get_seed_pages() as $definition ) {
+			if ( $path !== $definition['path'] ) {
+				continue;
+			}
+
+			$matches = get_posts(
+				array(
+					'post_type'      => 'page',
+					'post_status'    => 'publish',
+					'posts_per_page' => 1,
+					'title'          => $definition['title'],
+					'orderby'        => 'ID',
+					'order'          => 'ASC',
+				)
+			);
+
+			if ( ! empty( $matches ) ) {
+				$page = $matches[0];
+			}
+
+			break;
+		}
+	}
+
 	if ( $page ) {
-		return home_url( user_trailingslashit( $path ) );
+		return get_permalink( $page );
 	}
 
 	return home_url( '/' . $path . '/' );
@@ -84,16 +113,16 @@ function nika_get_menu_items() {
 			'children' => array(),
 		),
 		array(
-			'label' => 'Протезирование',
-			'url'   => nika_get_page_url( 'protezirovanie' ),
+			'label'    => 'Протезирование',
+			'url'      => '',
 			'children' => array(
 				array(
 					'label' => 'Съемное протезирование',
-					'url'   => nika_get_page_url( 'protezirovanie/semnoe-protezirovanie' ),
+					'url'   => nika_get_page_url( 'semnoe-protezirovanie' ),
 				),
 				array(
 					'label' => 'Коронки и несъемное протезирование',
-					'url'   => nika_get_page_url( 'protezirovanie/koronki-i-nesemnoe-protezirovanie' ),
+					'url'   => nika_get_page_url( 'koronki-i-nesemnoe-protezirovanie' ),
 				),
 			),
 		),
@@ -332,4 +361,59 @@ function nika_get_attachment_alt( $attachment_id, $fallback = '' ) {
 	}
 
 	return (string) $fallback;
+}
+
+/**
+ * Return a public URL only when a document exists in the theme content directory.
+ *
+ * @param string $file_name File name inside assets/content.
+ * @return string
+ */
+function nika_get_content_document_url( $file_name ) {
+	$file_name = wp_basename( (string) $file_name );
+
+	if ( '' === $file_name ) {
+		return '';
+	}
+
+	$path = get_template_directory() . '/assets/content/' . $file_name;
+
+	if ( ! file_exists( $path ) ) {
+		return '';
+	}
+
+	return nika_asset_url( 'content/' . $file_name );
+}
+
+/**
+ * Return a public URL only when a document exists in the uploads directory.
+ *
+ * @param string $relative_path Path relative to the WordPress uploads directory.
+ * @return string
+ */
+function nika_get_uploaded_document_url( $relative_path ) {
+	$relative_path = ltrim( wp_normalize_path( (string) $relative_path ), '/' );
+
+	if ( '' === $relative_path || false !== strpos( $relative_path, '..' ) ) {
+		return '';
+	}
+
+	$uploads   = wp_upload_dir();
+	$base_path = isset( $uploads['basedir'] ) ? wp_normalize_path( $uploads['basedir'] ) : '';
+	$base_url  = isset( $uploads['baseurl'] ) ? $uploads['baseurl'] : '';
+
+	if ( '' !== $base_path && '' !== $base_url && file_exists( $base_path . '/' . $relative_path ) ) {
+		return trailingslashit( $base_url ) . $relative_path;
+	}
+
+	$document_slug = sanitize_title( pathinfo( wp_basename( $relative_path ), PATHINFO_FILENAME ) );
+	$attachment    = get_page_by_path( $document_slug, OBJECT, 'attachment' );
+
+	if ( ! $attachment instanceof WP_Post ) {
+		return '';
+	}
+
+	$attachment_url = wp_get_attachment_url( $attachment->ID );
+
+	return is_string( $attachment_url ) ? $attachment_url : '';
 }

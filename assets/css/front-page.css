@@ -229,53 +229,6 @@
     font-weight: 400;
 }
 
-.trust-dark {
-    background: var(--brand-deep);
-    padding: 44px 0;
-}
-
-.trust-dark-inner {
-    max-width: var(--w);
-    margin: 0 auto;
-    padding: 0 var(--pad);
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.trust-dark-item {
-    text-align: center;
-    padding: 8px 24px;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.trust-dark-item:last-child {
-    border-right: 0;
-}
-
-.trust-dark-num {
-    font-family: var(--font-h);
-    font-size: 48px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    display: block;
-}
-
-.trust-dark-num .unit {
-    color: var(--accent);
-    font-size: 28px;
-    vertical-align: baseline;
-}
-
-.trust-dark-desc {
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 10px;
-    line-height: 1.4;
-}
-
 .services-cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -288,9 +241,15 @@
     border: 1.5px solid var(--border);
     border-radius: var(--r-lg);
     padding: 32px 28px 30px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 18px;
+    appearance: none;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
     transition: border-color var(--t-fast), transform var(--t-med);
     position: relative;
     overflow: hidden;
@@ -609,8 +568,7 @@
 }
 
 @media (max-width: 1180px) {
-    .hero-content,
-    .trust-dark-inner {
+    .hero-content {
         padding-left: 28px;
         padding-right: 28px;
     }
@@ -647,15 +605,6 @@
     .hero-floating {
         left: 28px;
         bottom: 64px;
-    }
-
-    .trust-dark-inner {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px 0;
-    }
-
-    .trust-dark-item:nth-child(2n) {
-        border-right: 0;
     }
 
     .protez-cards {
@@ -714,39 +663,6 @@
 
     .hero-blob {
         display: none;
-    }
-
-    .trust-dark {
-        padding: 28px 0;
-    }
-
-    .trust-dark-inner {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .trust-dark-item {
-        border-right: 0;
-        padding: 18px 14px;
-        background: rgb(255 255 255 / 10%);
-        border-radius: var(--r-md);
-        border-top: 1px solid hsl(0deg 0% 100% / 30%);
-        border-left: 1px solid hsl(0deg 0% 100% / 30%);
-    }
-
-    .trust-dark-num {
-        font-size: 38px;
-    }
-
-    .trust-dark-num .unit {
-        font-size: 24px;
-    }
-
-    .trust-dark-desc {
-        font-size: 14px;
-        margin-top: 8px;
     }
 
     .services-cards,

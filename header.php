@@ -54,15 +54,19 @@ $primary_phone  = nika_get_primary_phone();
 
 		<nav class="main-nav" id="site-navigation" aria-label="<?php esc_attr_e( 'Основное меню', 'nika' ); ?>">
 			<?php foreach ( $menu_items as $menu_item ) : ?>
-				<?php if ( nika_get_page_url( 'protezirovanie' ) === $menu_item['url'] ) : ?>
-					<?php continue; ?>
-				<?php endif; ?>
 				<?php if ( ! empty( $menu_item['children'] ) ) : ?>
 					<div class="nav-dropdown">
-						<a class="nav-trigger" href="<?php echo esc_url( $menu_item['url'] ); ?>">
-							<?php echo esc_html( $menu_item['label'] ); ?>
-							<span class="nav-trigger-arrow">▾</span>
-						</a>
+						<?php if ( ! empty( $menu_item['url'] ) ) : ?>
+							<a class="nav-trigger" href="<?php echo esc_url( $menu_item['url'] ); ?>">
+								<?php echo esc_html( $menu_item['label'] ); ?>
+								<span class="nav-trigger-arrow">▾</span>
+							</a>
+						<?php else : ?>
+							<button class="nav-trigger" type="button">
+								<?php echo esc_html( $menu_item['label'] ); ?>
+								<span class="nav-trigger-arrow">▾</span>
+							</button>
+						<?php endif; ?>
 						<div class="nav-dropdown-menu">
 							<?php foreach ( $menu_item['children'] as $child_item ) : ?>
 								<a href="<?php echo esc_url( $child_item['url'] ); ?>"><?php echo esc_html( $child_item['label'] ); ?></a>
@@ -76,3 +80,7 @@ $primary_phone  = nika_get_primary_phone();
 		</nav>
 	</div>
 </header>
+
+<?php if ( ! is_404() && ! is_page_template( 'page-thanks.php' ) ) : ?>
+	<?php get_template_part( 'template-parts/site-notice' ); ?>
+<?php endif; ?>
