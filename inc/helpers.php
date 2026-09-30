@@ -113,7 +113,7 @@ function nika_get_menu_items() {
 			'children' => array(),
 		),
 		array(
-			'label'    => 'Протезирование',
+			'label'    => 'Услуги',
 			'url'      => '',
 			'children' => array(
 				array(
@@ -123,6 +123,10 @@ function nika_get_menu_items() {
 				array(
 					'label' => 'Коронки и несъемное протезирование',
 					'url'   => nika_get_page_url( 'koronki-i-nesemnoe-protezirovanie' ),
+				),
+				array(
+					'label' => 'Имплантация All-on-4',
+					'url'   => nika_get_page_url( 'all-on-4' ),
 				),
 			),
 		),

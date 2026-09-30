@@ -291,7 +291,7 @@
     position: relative;
     overflow: hidden;
     padding: 88px 0;
-    background: var(--brand);
+    background: var(--cta-main-bg, var(--brand));
     text-align: center;
 }
 
@@ -345,7 +345,7 @@
 
 .cta-main__title {
     margin-bottom: 16px;
-    color: #fff;
+    color: var(--cta-main-title-color, #fff);
     font-size: 44px;
     font-weight: 700;
     line-height: 1.1;
@@ -355,7 +355,7 @@
 .cta-main__text {
     max-width: 640px;
     margin: 0 auto 36px;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--cta-main-text-color, rgba(255, 255, 255, 0.85));
     font-size: 19px;
     line-height: 1.5;
 }

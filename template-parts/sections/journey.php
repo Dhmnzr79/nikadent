@@ -14,6 +14,7 @@ $title  = isset( $args['title'] ) ? (string) $args['title'] : '';
 $lead   = isset( $args['lead'] ) ? (string) $args['lead'] : '';
 $steps  = isset( $args['steps'] ) && is_array( $args['steps'] ) ? $args['steps'] : array();
 $button = isset( $args['button'] ) ? (string) $args['button'] : '';
+$collapsible = ! empty( $args['collapsible'] );
 
 if ( '' === $title || empty( $steps ) ) {
 	return;
@@ -35,8 +36,18 @@ if ( '' === $title || empty( $steps ) ) {
 				<article class="rp-journey__item reveal">
 					<span class="rp-journey__num"><?php echo esc_html( $step['num'] ); ?></span>
 					<div>
+						<?php if ( $collapsible ) : ?>
+							<details class="treatment-step" open>
+								<summary class="treatment-step__trigger">
+									<h3 class="rp-journey__title treatment-step__title"><?php echo esc_html( $step['title'] ); ?></h3>
+									<span class="treatment-step__icon" aria-hidden="true"></span>
+								</summary>
+								<p class="rp-journey__text"><?php echo esc_html( $step['text'] ); ?></p>
+							</details>
+						<?php else : ?>
 						<h3 class="rp-journey__title"><?php echo esc_html( $step['title'] ); ?></h3>
 						<p class="rp-journey__text"><?php echo esc_html( $step['text'] ); ?></p>
+						<?php endif; ?>
 					</div>
 				</article>
 			<?php endforeach; ?>

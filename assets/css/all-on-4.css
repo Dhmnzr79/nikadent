@@ -1,0 +1,210 @@
+.site-main--all-on-4 {
+    --rp-intro-bg: var(--brand-tint);
+    --rp-journey-bg: var(--bg);
+    --cta-main-bg: var(--brand-tint);
+    --cta-main-title-color: var(--ink);
+    --cta-main-text-color: var(--ink-mid);
+}
+
+.service-method {
+    background: var(--bg);
+}
+
+.service-method__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 80px;
+}
+
+.service-method__copy {
+    min-width: 0;
+}
+
+.service-method__text {
+    margin-top: 24px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+}
+
+.service-method__photos {
+    position: relative;
+    min-width: 0;
+    padding: 0 52px 56px 0;
+}
+
+.service-method__photo {
+    object-fit: cover;
+    border-radius: var(--r-xl);
+    transform: translate3d(0, var(--photo-shift, 0px), 0);
+}
+
+.service-method__photo--primary {
+    width: 100%;
+    height: 440px;
+}
+
+.service-method__photo--secondary {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 44%;
+    height: 240px;
+    box-shadow: 0 16px 40px rgb(46 14 62 / 12%);
+}
+
+.rp-intro__note {
+    margin-top: 24px;
+    padding-left: 16px;
+    border-left: 2px solid var(--accent);
+    color: var(--ink-mid);
+    font-size: 15px;
+}
+
+.service-benefit {
+    transition: border-color var(--t-fast), transform var(--t-med), box-shadow var(--t-med);
+}
+
+.service-benefit:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgb(46 14 62 / 7%);
+}
+
+.service-benefit__icon {
+    background: linear-gradient(135deg, var(--brand-soft), var(--accent-soft));
+}
+
+.service-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.treatment-step__trigger {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 20px;
+    list-style: none;
+    cursor: pointer;
+    border-radius: var(--r-sm);
+}
+
+.treatment-step__trigger::-webkit-details-marker {
+    display: none;
+}
+
+.treatment-step__trigger:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 6px;
+}
+
+.treatment-step__title {
+    transition: color var(--t-fast);
+}
+
+.treatment-step__trigger:hover .treatment-step__title {
+    color: var(--brand);
+}
+
+.treatment-step__icon {
+    position: relative;
+    flex: 0 0 28px;
+    height: 28px;
+    margin-top: 2px;
+    background: var(--bg);
+    border-radius: var(--r-pill);
+    color: var(--brand);
+}
+
+.treatment-step__icon::before,
+.treatment-step__icon::after {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 8px;
+    width: 12px;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--t-fast);
+}
+
+.treatment-step__icon::after {
+    transform: rotate(90deg);
+}
+
+.treatment-step[open] .treatment-step__icon::after {
+    transform: rotate(0);
+}
+
+.consultation-points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 1040px;
+    margin: 0 auto 40px;
+    text-align: left;
+}
+
+.consultation-points__item {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--bg);
+}
+
+.consultation-points__title {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: var(--ink);
+}
+
+.consultation-points__text {
+    font-size: 15px;
+    color: var(--ink-mid);
+}
+
+@media (max-width: 800px) {
+    .service-method__grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .service-method__photos {
+        max-width: 560px;
+        width: 100%;
+        justify-self: center;
+        padding-right: 36px;
+    }
+
+    .service-method__photo--primary {
+        height: 360px;
+    }
+
+    .service-method__photo--secondary {
+        height: 200px;
+    }
+
+    .consultation-points {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .consultation-points__item {
+        padding: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-method__photo {
+        transform: none;
+    }
+
+    .service-benefit,
+    .treatment-step__title,
+    .treatment-step__icon::before,
+    .treatment-step__icon::after {
+        transition: none;
+    }
+}

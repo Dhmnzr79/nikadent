@@ -260,7 +260,7 @@
 }
 
 .rp-intro {
-    background: #fff;
+    background: var(--rp-intro-bg, var(--bg));
 }
 
 .rp-intro__head {
@@ -726,7 +726,7 @@
 }
 
 .rp-journey {
-    background: #f8f3fa;
+    background: var(--rp-journey-bg, #f8f3fa);
 }
 
 .rp-journey__grid {
@@ -779,7 +779,7 @@
     height: 56px;
     border: 1px solid #d8c4de;
     border-radius: 50%;
-    background: #f8f3fa;
+    background: var(--rp-journey-bg, #f8f3fa);
     display: grid;
     place-items: center;
     color: var(--brand);

@@ -611,6 +611,45 @@ document.documentElement.classList.add("has-js");
     }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const photoMotionGroups = Array.from(document.querySelectorAll("[data-service-photos]"), (root) => ({
+        root,
+        photos: Array.from(root.querySelectorAll("[data-scroll-shift]"), (photo) => ({
+            element: photo,
+            distance: Number(photo.dataset.scrollShift) || 0,
+        })),
+    }));
+
+    if (photoMotionGroups.length && !prefersReducedMotion) {
+        let photoMotionFrame = 0;
+
+        const updatePhotoMotion = () => {
+            photoMotionFrame = 0;
+            const viewportHeight = window.innerHeight;
+
+            photoMotionGroups.forEach(({ root, photos }) => {
+                const bounds = root.getBoundingClientRect();
+                const progress = Math.max(-1, Math.min(1,
+                    (viewportHeight / 2 - bounds.top - bounds.height / 2) / ((viewportHeight + bounds.height) / 2)
+                ));
+
+                photos.forEach(({ element, distance }) => {
+                    element.style.setProperty("--photo-shift", `${(progress * distance).toFixed(2)}px`);
+                });
+            });
+        };
+
+        const schedulePhotoMotion = () => {
+            if (!photoMotionFrame) {
+                photoMotionFrame = window.requestAnimationFrame(updatePhotoMotion);
+            }
+        };
+
+        window.addEventListener("scroll", schedulePhotoMotion, { passive: true });
+        window.addEventListener("resize", schedulePhotoMotion);
+        schedulePhotoMotion();
+    }
+
     const revealItems = document.querySelectorAll(".reveal");
 
     if (prefersReducedMotion) {

@@ -8,6 +8,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$title  = isset( $args['title'] ) ? (string) $args['title'] : __( 'Запишитесь на бесплатную консультацию по протезированию', 'nika' );
+$text   = isset( $args['text'] ) ? (string) $args['text'] : __( 'Врач посмотрит, подскажет варианты и назовет точную цену. Без давления и обязательств.', 'nika' );
+$items  = isset( $args['items'] ) && is_array( $args['items'] ) ? $args['items'] : array();
+$button = isset( $args['button'] ) ? (string) $args['button'] : '';
 ?>
 <section class="cta-main" id="cta">
 	<div class="cta-main__deco" aria-hidden="true">
@@ -37,12 +42,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="container">
 		<div class="cta-main__content">
-			<h2 class="cta-main__title"><?php esc_html_e( 'Запишитесь на бесплатную консультацию по протезированию', 'nika' ); ?></h2>
-			<p class="cta-main__text"><?php esc_html_e( 'Врач посмотрит, подскажет варианты и назовет точную цену. Без давления и обязательств.', 'nika' ); ?></p>
+			<h2 class="cta-main__title"><?php echo esc_html( $title ); ?></h2>
+			<p class="cta-main__text"><?php echo esc_html( $text ); ?></p>
+			<?php if ( ! empty( $items ) ) : ?>
+				<div class="consultation-points">
+					<?php foreach ( $items as $item ) : ?>
+						<article class="consultation-points__item reveal">
+							<h3 class="consultation-points__title"><?php echo esc_html( $item['title'] ); ?></h3>
+							<p class="consultation-points__text"><?php echo esc_html( $item['text'] ); ?></p>
+						</article>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 
 			<div class="cta-main__actions">
+				<?php if ( '' !== $button ) : ?>
+					<button type="button" class="btn btn-accent btn-lg" data-popup-trigger data-popup-label="<?php echo esc_attr( $button ); ?>"><?php echo esc_html( $button ); ?></button>
+				<?php else : ?>
 				<a href="#" class="btn btn-accent btn-lg"><?php esc_html_e( 'Записаться онлайн', 'nika' ); ?></a>
 				<a href="tel:+79004446997" class="btn btn-outline-white btn-lg" data-popup-ignore><?php esc_html_e( 'Позвонить', 'nika' ); ?></a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

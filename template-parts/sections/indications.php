@@ -13,6 +13,7 @@ $kicker = isset( $args['kicker'] ) ? (string) $args['kicker'] : '';
 $title  = isset( $args['title'] ) ? (string) $args['title'] : '';
 $text   = isset( $args['text'] ) ? (string) $args['text'] : '';
 $items  = isset( $args['items'] ) && is_array( $args['items'] ) ? $args['items'] : array();
+$note   = isset( $args['note'] ) ? (string) $args['note'] : '';
 
 if ( '' === $title || empty( $items ) ) {
 	return;
@@ -58,5 +59,8 @@ if ( 4 === count( $items ) ) {
 				</article>
 			<?php endforeach; ?>
 		</div>
+		<?php if ( '' !== $note ) : ?>
+			<p class="rp-intro__note"><?php echo esc_html( $note ); ?></p>
+		<?php endif; ?>
 	</div>
 </section>

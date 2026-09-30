@@ -44,7 +44,9 @@ function nika_enqueue_assets() {
 		$get_version( '/assets/css/components.css' )
 	);
 
-	if ( is_front_page() ) {
+	$is_all_on_4 = is_page( 'all-on-4' ) || is_page_template( 'page-all-on-4.php' );
+
+	if ( is_front_page() || $is_all_on_4 ) {
 		wp_enqueue_style(
 			'nika-front-page',
 			$theme_uri . '/assets/css/front-page.css',
@@ -62,12 +64,21 @@ function nika_enqueue_assets() {
 		);
 	}
 
-	if ( is_page( array( 'semnoe-protezirovanie', 'koronki-i-nesemnoe-protezirovanie' ) ) ) {
+	if ( is_page( array( 'semnoe-protezirovanie', 'koronki-i-nesemnoe-protezirovanie' ) ) || $is_all_on_4 ) {
 		wp_enqueue_style(
 			'nika-prosthetics',
 			$theme_uri . '/assets/css/prosthetics.css',
 			array( 'nika-components' ),
 			$get_version( '/assets/css/prosthetics.css' )
+		);
+	}
+
+	if ( $is_all_on_4 ) {
+		wp_enqueue_style(
+			'nika-all-on-4',
+			$theme_uri . '/assets/css/all-on-4.css',
+			array( 'nika-front-page', 'nika-prosthetics', 'nika-pages' ),
+			$get_version( '/assets/css/all-on-4.css' )
 		);
 	}
 

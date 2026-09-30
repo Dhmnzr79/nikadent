@@ -96,6 +96,11 @@ function nika_get_seo_description() {
 	if ( is_page() ) {
 		$page = get_queried_object();
 
+		if ( is_page( 'all-on-4' ) || is_page_template( 'page-all-on-4.php' ) ) {
+			$content = nika_get_all_on_4_content();
+			return $content['hero']['lead'];
+		}
+
 		if ( $page instanceof WP_Post ) {
 			$slug = $page->post_name;
 

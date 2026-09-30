@@ -22,6 +22,11 @@ function nika_get_seed_pages() {
 			'parent' => '',
 		),
 		array(
+			'path'   => 'all-on-4',
+			'title'  => 'Имплантация All-on-4',
+			'parent' => '',
+		),
+		array(
 			'path'   => 'doctors',
 			'title'  => 'Врачи',
 			'parent' => '',
@@ -249,3 +254,39 @@ function nika_maybe_seed_pages() {
 	flush_rewrite_rules( false );
 }
 add_action( 'init', 'nika_maybe_seed_pages' );
+
+function nika_maybe_seed_all_on_4_page() {
+	if ( get_option( 'nika_all_on_4_page_v2' ) ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'all-on-4' );
+
+	if ( ! $page ) {
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => 'Имплантация All-on-4',
+				'post_name'    => 'all-on-4',
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_content' => '<p>' . esc_html( nika_get_seed_page_placeholder_text() ) . '</p>',
+			),
+			true
+		);
+	} else {
+		$page_id = wp_update_post(
+			array(
+				'ID'         => $page->ID,
+				'post_title' => 'Имплантация All-on-4',
+			),
+			true
+		);
+	}
+
+	if ( is_wp_error( $page_id ) || ! $page_id ) {
+		return;
+	}
+
+	update_option( 'nika_all_on_4_page_v2', 1 );
+}
+add_action( 'init', 'nika_maybe_seed_all_on_4_page', 11 );
